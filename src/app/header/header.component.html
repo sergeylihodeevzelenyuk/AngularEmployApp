@@ -1,0 +1,20 @@
+<header class="header">
+  <div class="header_icon" (click)="onHomeClick()">Employ APP</div>
+  <div class="header_user user" *ngIf="isLogged">
+    <div class="user_name">{{ userName }}</div>
+    <button mat-button [matMenuTriggerFor]="menu">
+      <div class="user_pic"></div>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item appOnSingOut>Sign Out</button>
+    </mat-menu>
+  </div>
+  <div class="header_logger" *ngIf="!isLogged">
+    <button mat-raised-button routerLink="/signIn" class="header_btn">
+      Sign In
+    </button>
+    <button mat-raised-button routerLink="/signUp" class="header_btn sign-in">
+      Sign Up
+    </button>
+  </div>
+</header>

@@ -1,0 +1,45 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 36px;
+  padding: 15px 30px;
+  background-color: black;
+  color: white;
+
+  &_icon {
+    cursor: pointer;
+  }
+
+  &_logger {
+    display: flex;
+    gap: 15px;
+  }
+
+  &_btn {
+    background-color: transparent;
+    color: white;
+  }
+
+  &_btn.sign-in {
+    outline: 1px solid white;
+  }
+}
+
+.user {
+  display: flex;
+  align-items: baseline;
+
+  &_pic {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: url("../../assets/image/ProfilePic.png") center center / 110%
+      no-repeat;
+  }
+
+  &_name {
+    margin-right: 6px;
+  }
+}

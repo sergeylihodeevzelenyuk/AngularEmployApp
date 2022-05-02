@@ -1,0 +1,38 @@
+@mixin input-view {
+  border: 1px solid hsla(210, 18%, 87%, 1);
+  border-radius: 6px;
+}
+
+@mixin form-view {
+  &_form {
+    padding: 16px;
+    background-color: #f6f8fa;
+    @include input-view;
+    margin-bottom: 16px;
+  }
+
+  &_form-control {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+
+    & label {
+      margin-bottom: 8px;
+    }
+  }
+
+  &_submit button {
+    width: 100%;
+  }
+}
+
+@mixin auth-notice {
+  text-align: center;
+  padding: 16px;
+  margin-bottom: 16px;
+  @include input-view;
+
+  a {
+    text-decoration: none;
+  }
+}

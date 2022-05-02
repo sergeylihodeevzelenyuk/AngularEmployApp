@@ -1,0 +1,68 @@
+<div class="logg-in">
+  <h3 class="logg-in_heading">Sign in to Employ APP</h3>
+  <form [formGroup]="loggInForm" (ngSubmit)="onSubmit()" class="logg-in_form">
+    <div class="logg-in_form-control">
+      <label for="email">Email adress</label>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          type="email"
+          matInput
+          formControlName="email"
+          placeholder="Ex. pat@example.com"
+        />
+        <mat-error
+          *ngIf="
+            loggInForm.get('email')!.hasError('email') &&
+            !loggInForm.get('email')!.hasError('required') &&
+            !loggInForm.get('email')!.hasError('emailExist')
+          "
+        >
+          Please enter a valid email address
+        </mat-error>
+        <mat-error
+          *ngIf="
+            !loggInForm.get('email')!.hasError('email') &&
+            !loggInForm.get('email')!.hasError('required') &&
+            !loggInForm.get('email')!.hasError('emailExist')
+          "
+        >
+          This email address dosn't exist
+        </mat-error>
+        <mat-error *ngIf="loggInForm.get('email')!.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="logg-in_form-control">
+      <label for="password">Password</label>
+      <mat-form-field appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input
+          formControlName="password"
+          matInput
+          [type]="hide ? 'password' : 'text'"
+        />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div class="logg-in_submit">
+      <button mat-raised-button type="submit" [disabled]="loggInForm.invalid">
+        Sign Up
+      </button>
+    </div>
+  </form>
+  <div class="logg-in_create-accaunt">
+    <span>New to Employ APP? </span>
+    <a routerLink="/signUp">Create an account.</a>
+  </div>
+</div>

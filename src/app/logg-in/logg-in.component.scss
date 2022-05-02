@@ -1,0 +1,15 @@
+@import "../../mixins.scss";
+
+.logg-in {
+  margin: 0 auto 40px;
+  width: 310px;
+  @include form-view;
+
+  &_heading {
+    text-align: center;
+  }
+
+  &_create-accaunt {
+    @include auth-notice;
+  }
+}

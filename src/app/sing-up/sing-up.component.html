@@ -1,0 +1,107 @@
+<div class="sing-up">
+  <h3 class="sing-up_heading">Create a new account</h3>
+  <form [formGroup]="singUpForm" class="sing-up_form" (ngSubmit)="onSubmit()">
+    <div class="sing-up_form-control">
+      <label for="email">Email adress</label>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          id="email"
+          type="email"
+          matInput
+          formControlName="email"
+          placeholder="Ex. pat@example.com"
+        />
+        <mat-error
+          *ngIf="
+            singUpForm.get('email')!.hasError('email') &&
+            !singUpForm.get('email')!.hasError('required') &&
+            !singUpForm.get('email')!.hasError('emailExist')
+          "
+        >
+          Please enter a valid email address
+        </mat-error>
+        <mat-error
+          *ngIf="
+            !singUpForm.get('email')!.hasError('email') &&
+            !singUpForm.get('email')!.hasError('required') &&
+            singUpForm.get('email')!.hasError('emailExist')
+          "
+        >
+          This email already exist
+        </mat-error>
+        <mat-error *ngIf="singUpForm.get('email')!.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <div class="sing-up_form-control">
+        <label for="password">Password</label>
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your password</mat-label>
+          <input
+            id="password"
+            type="password"
+            autocomplete
+            formControlName="password"
+            matInput
+            [type]="hidePass ? 'password' : 'text'"
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hidePass = !hidePass"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hidePass"
+          >
+            <mat-icon>{{
+              hidePass ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="sing-up_form-control">
+        <label for="confirmPassword">Confirm the password</label>
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your password</mat-label>
+          <input
+            id="confirmPassword"
+            type="password"
+            autocomplete
+            formControlName="confirmPassword"
+            matInput
+            [type]="hidePassConfirm ? 'password' : 'text'"
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hidePassConfirm = !hidePassConfirm"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hidePassConfirm"
+          >
+            <mat-icon>{{
+              hidePassConfirm ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="singUpForm.get('confirmPassword')!.hasError('noMatches')"
+          >
+            The password don't confirmed
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="sing-up_submit">
+      <button mat-raised-button type="submit" [disabled]="singUpForm.invalid">
+        Create
+      </button>
+    </div>
+  </form>
+  <div class="sing-up_create-accaunt">
+    <span>Alrady have an account? </span>
+    <a routerLink="/signIn">Sing in!</a>
+  </div>
+</div>

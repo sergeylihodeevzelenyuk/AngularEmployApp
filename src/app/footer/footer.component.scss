@@ -1,0 +1,20 @@
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 36px;
+  padding: 10px 30px;
+  background-color: black;
+  color: white;
+  margin-bottom: 40px;
+
+  &_link {
+    padding-top: 6px;
+
+    svg {
+      border: 1px solid white;
+      background-color: white;
+      border-radius: 50%;
+    }
+  }
+}
