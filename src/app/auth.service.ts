@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 
-import { User } from './auth-model';
-import { LocalstorageService } from './localstorage.service';
+import { User } from "./auth-model";
+import { LocalstorageService } from "./localstorage.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AuthService {
   isLoggedSubject = new Subject<boolean>();
@@ -22,40 +22,40 @@ export class AuthService {
   }
 
   createLoggStatus() {
-    if (!this.localStorage.hasItem('isLogged')) {
-      this.localStorage.createItem('isLogged', '0');
+    if (!this.localStorage.hasItem("isLogged")) {
+      this.localStorage.createItem("isLogged", "0");
     }
   }
 
   createInitialUsers() {
-    if (!this.localStorage.hasItem('users')) {
-      this.localStorage.createItem('users', JSON.stringify([]));
+    if (!this.localStorage.hasItem("users")) {
+      this.localStorage.createItem("users", JSON.stringify([]));
     }
   }
 
   loggIn(email: string) {
-    this.localStorage.updateItem('isLogged', '1');
-    this.localStorage.createItem('currentUser', JSON.stringify(email));
-    this.userInfoSubject.next(email);
+    this.localStorage.updateItem("isLogged", "1");
+    this.localStorage.createItem("currentUser", JSON.stringify(email));
     this.isLoggedSubject.next(true);
+    this.userInfoSubject.next(email);
   }
 
   loggOut() {
-    this.localStorage.updateItem('isLogged', '0');
-    this.localStorage.deleteItem('currentUser');
+    this.localStorage.updateItem("isLogged", "0");
+    this.localStorage.deleteItem("currentUser");
     this.isLoggedSubject.next(false);
   }
 
   getAuthStatus() {
-    return this.localStorage.getItem('isLogged') === '0' ? false : true;
+    return this.localStorage.getItem("isLogged") === "0" ? false : true;
   }
 
   getUserInfo() {
-    return JSON.parse(this.localStorage.getItem('currentUser'));
+    return JSON.parse(this.localStorage.getItem("currentUser"));
   }
 
   getAllUsers() {
-    return JSON.parse(this.localStorage.getItem('users')!);
+    return JSON.parse(this.localStorage.getItem("users")!);
   }
 
   getUserByEmail(email: string): User | undefined {
@@ -68,7 +68,7 @@ export class AuthService {
     const users = this.getAllUsers();
 
     users.push(user);
-    this.localStorage.updateItem('users', JSON.stringify(users));
+    this.localStorage.updateItem("users", JSON.stringify(users));
   }
 
   hasEmail(email: string): boolean {

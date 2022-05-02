@@ -3,7 +3,7 @@
   <div class="header_user user" *ngIf="isLogged">
     <div class="user_name">{{ userName }}</div>
     <button mat-button [matMenuTriggerFor]="menu">
-      <div class="user_pic"></div>
+      <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item appOnSingOut>Sign Out</button>

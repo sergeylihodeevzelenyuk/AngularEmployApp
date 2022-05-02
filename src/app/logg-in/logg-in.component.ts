@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { AuthService } from "../auth.service";
 
 @Component({
-  selector: 'app-logg-in',
-  templateUrl: './logg-in.component.html',
-  styleUrls: ['./logg-in.component.scss'],
+  selector: "app-logg-in",
+  templateUrl: "./logg-in.component.html",
+  styleUrls: ["./logg-in.component.scss"],
 })
 export class LoggInComponent implements OnInit {
   loggInForm!: FormGroup;
@@ -16,7 +16,7 @@ export class LoggInComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggInForm = new FormGroup({
-      email: new FormControl('', [
+      email: new FormControl("", [
         Validators.required,
         Validators.email,
         this.isEmailExist.bind(this),
@@ -29,10 +29,10 @@ export class LoggInComponent implements OnInit {
   }
 
   onSubmit() {
-    const email = this.loggInForm?.get('email')!.value;
+    const email = this.loggInForm?.get("email")!.value;
 
     this.authService.loggIn(email);
-    this.route.navigate(['/']);
+    this.route.navigate(["/"]);
     this.loggInForm.reset();
   }
 
@@ -44,7 +44,7 @@ export class LoggInComponent implements OnInit {
   }
 
   isPasswordConfirmed(control: FormControl): { [s: string]: boolean } | null {
-    const email = this.loggInForm?.get('email')!.value;
+    const email = this.loggInForm?.value.email;
     const password = control.value;
 
     if (this.authService.isPasswordConfirmed(email, password)) {

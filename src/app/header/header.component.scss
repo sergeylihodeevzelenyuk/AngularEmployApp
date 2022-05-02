@@ -28,18 +28,15 @@
 
 .user {
   display: flex;
+  justify-content: end;
   align-items: baseline;
-
-  &_pic {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    overflow: hidden;
-    background: url("../../assets/image/ProfilePic.png") center center / 110%
-      no-repeat;
-  }
 
   &_name {
     margin-right: 6px;
+  }
+
+  button {
+    padding: 0;
+    min-width: unset;
   }
 }

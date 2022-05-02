@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 function getLocalStorage(): Storage {
   return localStorage;
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class LocalstorageService {
   private _localStorage;
@@ -30,11 +30,11 @@ export class LocalstorageService {
     this.setItem(item, value);
   }
 
-  setItem(item: string, value: string) {
-    this._localStorage.setItem(item, value);
-  }
-
   deleteItem(item: string) {
     this._localStorage.removeItem(item);
+  }
+
+  setItem(item: string, value: string) {
+    this._localStorage.setItem(item, value);
   }
 }
