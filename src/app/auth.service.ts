@@ -9,7 +9,7 @@ import { LocalstorageService } from "./localstorage.service";
 })
 export class AuthService {
   isLoggedSubject = new Subject<boolean>();
-  userInfoSubject = new Subject<string>();
+  currentUserSubject = new Subject<string>();
   isLogged = false;
 
   constructor(private localStorage: LocalstorageService) {
@@ -37,7 +37,7 @@ export class AuthService {
     this.localStorage.updateItem("isLogged", "1");
     this.localStorage.createItem("currentUser", JSON.stringify(email));
     this.isLoggedSubject.next(true);
-    this.userInfoSubject.next(email);
+    this.currentUserSubject.next(email);
   }
 
   loggOut() {
@@ -50,7 +50,7 @@ export class AuthService {
     return this.localStorage.getItem("isLogged") === "0" ? false : true;
   }
 
-  getUserInfo() {
+  getCurrentUserInfo() {
     return JSON.parse(this.localStorage.getItem("currentUser"));
   }
 
@@ -64,7 +64,7 @@ export class AuthService {
     return users.find((user: User) => user.email === email);
   }
 
-  createNewUser(user: User) {
+  addNewUser(user: User) {
     const users = this.getAllUsers();
 
     users.push(user);

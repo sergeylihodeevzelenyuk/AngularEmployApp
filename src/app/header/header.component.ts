@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { AuthService } from '../auth.service';
+import { AuthService } from "../auth.service";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   isLogged!: boolean;
@@ -20,18 +20,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
       (isLogged) => (this.isLogged = isLogged)
     );
 
-    this.userName = this.authService.getUserInfo();
-    this.authService.userInfoSubject.subscribe(
+    this.userName = this.authService.getCurrentUserInfo();
+    this.authService.currentUserSubject.subscribe(
       (userName) => (this.userName = userName)
     );
   }
 
   onHomeClick() {
-    this.router.navigate(['/home']);
+    this.router.navigate(["/home"]);
   }
 
   ngOnDestroy(): void {
     this.authService.isLoggedSubject.unsubscribe();
-    this.authService.userInfoSubject.unsubscribe();
+    this.authService.currentUserSubject.unsubscribe();
   }
 }

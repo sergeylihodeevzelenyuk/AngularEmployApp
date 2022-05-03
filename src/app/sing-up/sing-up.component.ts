@@ -38,7 +38,7 @@ export class SingUpComponent implements OnInit {
       this.singUpForm.value.password
     );
 
-    this.authService.createNewUser(user);
+    this.authService.addNewUser(user);
     this.route.navigate(["/signIn"]);
     this.singUpForm.reset();
   }
