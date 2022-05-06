@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "../auth.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-logg-in",
@@ -11,6 +12,8 @@ import { AuthService } from "../auth.service";
 export class LoggInComponent implements OnInit {
   loggInForm!: FormGroup;
   hide = true;
+  HOME = environment.PATH.HOME;
+  SING_UP = "/" + environment.PATH.AUTH.SING_UP;
 
   constructor(private authService: AuthService, private route: Router) {}
 
@@ -32,7 +35,7 @@ export class LoggInComponent implements OnInit {
     const email = this.loggInForm?.get("email")!.value;
 
     this.authService.loggIn(email);
-    this.route.navigate(["/"]);
+    this.route.navigate([this.HOME]);
     this.loggInForm.reset();
   }
 

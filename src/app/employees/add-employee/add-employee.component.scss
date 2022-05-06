@@ -1,0 +1,49 @@
+@import "../../../mixins.scss";
+
+.add-empl {
+  width: 551px;
+  padding: 30px 0 0;
+  margin: 0 auto 40px;
+
+  &_form {
+    @include input-view;
+    padding: 15px;
+    background-color: $backdrop-blue;
+  }
+
+  &_form-set {
+    display: flex;
+    gap: 15px;
+  }
+
+  &_form-required,
+  &_form-additional {
+    width: 50%;
+
+    .example-full-width {
+      width: 100%;
+    }
+
+    input {
+      width: 100%;
+    }
+  }
+
+  &_heading {
+    text-align: center;
+  }
+
+  &_spinner {
+    @include spinner;
+  }
+
+  &_actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    button {
+      width: 50%;
+    }
+  }
+}

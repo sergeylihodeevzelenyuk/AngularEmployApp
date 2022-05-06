@@ -1,6 +1,6 @@
-@import "../../mixins.scss";
+@import "../../../mixins.scss";
 
-.sing-up {
+.logg-in {
   margin: 0 auto 40px;
   width: 310px;
   @include form-view;

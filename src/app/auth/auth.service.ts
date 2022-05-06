@@ -2,7 +2,19 @@ import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 
 import { User } from "./auth-model";
-import { LocalstorageService } from "./localstorage.service";
+import { LocalstorageService } from "../shared-services/localstorage.service";
+
+enum Status {
+  unlogged = "0",
+  logged = "1",
+}
+
+enum Props {
+  isLogged = "isLogged",
+  user = "user",
+  users = "users",
+  currentUser = "currentUser",
+}
 
 @Injectable({
   providedIn: "root",
@@ -10,6 +22,7 @@ import { LocalstorageService } from "./localstorage.service";
 export class AuthService {
   isLoggedSubject = new Subject<boolean>();
   currentUserSubject = new Subject<string>();
+
   isLogged = false;
 
   constructor(private localStorage: LocalstorageService) {
@@ -22,40 +35,42 @@ export class AuthService {
   }
 
   createLoggStatus() {
-    if (!this.localStorage.hasItem("isLogged")) {
-      this.localStorage.createItem("isLogged", "0");
+    if (!this.localStorage.hasItem(Props.isLogged)) {
+      this.localStorage.createItem(Props.isLogged, Status.unlogged);
     }
   }
 
   createInitialUsers() {
-    if (!this.localStorage.hasItem("users")) {
-      this.localStorage.createItem("users", JSON.stringify([]));
+    if (!this.localStorage.hasItem(Props.users)) {
+      this.localStorage.createItem(Props.users, JSON.stringify([]));
     }
   }
 
   loggIn(email: string) {
-    this.localStorage.updateItem("isLogged", "1");
-    this.localStorage.createItem("currentUser", JSON.stringify(email));
+    this.localStorage.updateItem(Props.isLogged, Status.logged);
+    this.localStorage.createItem(Props.currentUser, JSON.stringify(email));
     this.isLoggedSubject.next(true);
     this.currentUserSubject.next(email);
   }
 
   loggOut() {
-    this.localStorage.updateItem("isLogged", "0");
-    this.localStorage.deleteItem("currentUser");
+    this.localStorage.updateItem(Props.isLogged, Status.unlogged);
+    this.localStorage.deleteItem(Props.currentUser);
     this.isLoggedSubject.next(false);
   }
 
   getAuthStatus() {
-    return this.localStorage.getItem("isLogged") === "0" ? false : true;
+    return this.localStorage.getItem(Props.isLogged) === Status.unlogged
+      ? false
+      : true;
   }
 
   getCurrentUserInfo() {
-    return JSON.parse(this.localStorage.getItem("currentUser"));
+    return JSON.parse(this.localStorage.getItem(Props.currentUser));
   }
 
   getAllUsers() {
-    return JSON.parse(this.localStorage.getItem("users")!);
+    return JSON.parse(this.localStorage.getItem(Props.users)!);
   }
 
   getUserByEmail(email: string): User | undefined {
@@ -68,7 +83,7 @@ export class AuthService {
     const users = this.getAllUsers();
 
     users.push(user);
-    this.localStorage.updateItem("users", JSON.stringify(users));
+    this.localStorage.updateItem(Props.users, JSON.stringify(users));
   }
 
   hasEmail(email: string): boolean {

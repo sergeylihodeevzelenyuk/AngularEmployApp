@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { User } from "../auth-model";
 import { AuthService } from "../auth.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-sing-up",
@@ -14,6 +15,7 @@ export class SingUpComponent implements OnInit {
   singUpForm!: FormGroup;
   hidePass = true;
   hidePassConfirm = true;
+  SING_IN = "/" + environment.PATH.AUTH.SING_IN;
 
   constructor(private authService: AuthService, private route: Router) {}
 
@@ -39,7 +41,7 @@ export class SingUpComponent implements OnInit {
     );
 
     this.authService.addNewUser(user);
-    this.route.navigate(["/signIn"]);
+    this.route.navigate([this.SING_IN]);
     this.singUpForm.reset();
   }
 

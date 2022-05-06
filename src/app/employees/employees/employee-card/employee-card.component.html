@@ -1,0 +1,19 @@
+<section class="employee card" (click)="onCardClick()">
+  <div class="employee_main">
+    <span class="employee_data">{{ employee.date }}</span>
+    <div class="employee_name-group">
+      <div class="employee_photo">
+        <span class="material-icons" *ngIf="!employee.imgPath">
+          account_circle
+        </span>
+        <img *ngIf="employee.imgPath" [src]="employee.imgPath" alt="" />
+      </div>
+      <h3 class="employee_name">{{ employee.name }}</h3>
+      <h4 class="employee_position">{{ employee.position }}</h4>
+    </div>
+  </div>
+  <div class="employee_contact_group">
+    <p class="employee_email">{{ employee.email }}</p>
+    <p class="employee_phone">{{ employee.phone }}</p>
+  </div>
+</section>

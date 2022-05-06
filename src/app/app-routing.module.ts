@@ -1,25 +1,23 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ErrorPageComponent } from './error-page/error-page.component';
-import { HomeComponent } from './home/home.component';
-import { LoggInComponent } from './logg-in/logg-in.component';
-import { SingUpComponent } from './sing-up/sing-up.component';
+import { NgModule } from "@angular/core";
+import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
+
+import { HomeComponent } from "./home/home.component";
+import { environment } from "src/environments/environment";
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', redirectTo: '' },
-  { path: 'signIn', component: LoggInComponent },
-  { path: 'signUp', component: SingUpComponent },
+  { path: environment.PATH.ROOT, component: HomeComponent },
+  { path: environment.PATH.HOME, redirectTo: environment.PATH.ROOT },
   {
-    path: 'not-found',
-    component: ErrorPageComponent,
-    data: { message: 'Page not found' },
+    path: environment.PATH.EMPLOYEES.ROOT,
+    loadChildren: () =>
+      import("./employees/employees.module").then((m) => m.EmployeesModule),
   },
-  { path: '**', redirectTo: '/not-found' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
+  imports: [
+    RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

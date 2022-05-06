@@ -1,0 +1,15 @@
+@import "../../../mixins.scss";
+
+.notification {
+  @include notification;
+
+  &_content {
+    @include notification_content;
+    background-color: white;
+  }
+
+  &_spinner {
+    display: flex;
+    justify-content: center;
+  }
+}

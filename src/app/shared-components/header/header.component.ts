@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { AuthService } from "../auth.service";
+import { AuthService } from "../../auth/auth.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-header",
@@ -11,6 +12,9 @@ import { AuthService } from "../auth.service";
 export class HeaderComponent implements OnInit, OnDestroy {
   isLogged!: boolean;
   userName!: string;
+  SING_IN = environment.PATH.AUTH.SING_IN;
+  SING_UP = environment.PATH.AUTH.SING_UP;
+  EMPLOYEES = environment.PATH.EMPLOYEES.ROOT;
 
   constructor(private authService: AuthService, private router: Router) {}
 

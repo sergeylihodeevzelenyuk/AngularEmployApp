@@ -1,0 +1,46 @@
+@import "../../../mixins.scss";
+
+.employee {
+  padding: 30px 30px 0;
+
+  &_spinner {
+    @include spinner;
+  }
+
+  &_photo {
+    img {
+      height: 200px;
+      border-radius: 100%;
+    }
+
+    @include account-img-placeholder;
+    span {
+      font-size: 200px;
+    }
+  }
+
+  &_content {
+    display: flex;
+  }
+
+  &_info {
+    padding: 0 0 0 30px;
+  }
+
+  &_additional {
+    min-width: 400px;
+    flex-grow: 1;
+    padding: 0 0 0 30px;
+
+    mat-accordion {
+      width: 100%;
+    }
+  }
+
+  &_actions {
+    padding: 30px 0 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+}

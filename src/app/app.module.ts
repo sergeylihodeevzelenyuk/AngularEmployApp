@@ -1,46 +1,23 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { AppRoutingModule } from "./app-routing.module";
+import { HttpClientModule } from "@angular/common/http";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
-import { HeaderComponent } from './header/header.component';
-import { LoggInComponent } from './logg-in/logg-in.component';
-import { HomeComponent } from './home/home.component';
-import { ErrorPageComponent } from './error-page/error-page.component';
-import { SingUpComponent } from './sing-up/sing-up.component';
-import { OnSingOutDirective } from './header/on-sing-out.directive';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { FooterComponent } from './footer/footer.component';
+import { AppComponent } from "./app.component";
+import { AuthModule } from "./auth/auth.module";
+import { SharedModule } from "./shared-components/shared.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    LoggInComponent,
-    HomeComponent,
-    ErrorPageComponent,
-    SingUpComponent,
-    OnSingOutDirective,
-    FooterComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatIconModule,
+    HttpClientModule,
+    AppRoutingModule,
+    AuthModule,
+    SharedModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,0 +1,10 @@
+@import "../../../mixins.scss";
+
+.error {
+  @include notification;
+
+  &_content {
+    @include notification_content;
+    background-color: #efbcbc;
+  }
+}

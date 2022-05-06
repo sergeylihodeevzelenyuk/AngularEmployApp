@@ -2,10 +2,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
   min-height: 36px;
   padding: 15px 30px;
   background-color: black;
   color: white;
+
+  &_nav-group {
+    flex-basis: 440px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+  }
+
+  &_nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+  }
 
   &_icon {
     cursor: pointer;

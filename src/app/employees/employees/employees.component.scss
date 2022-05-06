@@ -1,0 +1,68 @@
+@import "../../../mixins.scss";
+
+.employees {
+  padding: 0 30px 30px;
+
+  &_header {
+    padding-top: 30px;
+  }
+
+  &_heading {
+    flex-basis: 350px;
+    margin: 0;
+  }
+
+  &_search {
+    width: 300px;
+  }
+
+  &_spinner {
+    @include spinner;
+  }
+
+  &_content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  &_item-wrapper {
+    flex-basis: 250px;
+    max-width: 400px;
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin: 0 0 30px;
+
+  &_options,
+  &_view {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &_options {
+    flex-basis: 350px;
+    flex-shrink: 1;
+  }
+
+  &_view {
+    flex-basis: 130px;
+    flex-shrink: 1;
+
+    mat-icon {
+      width: 32px;
+      height: 32px;
+      font-size: 32px;
+    }
+  }
+}
