@@ -1,17 +1,19 @@
 export const environment = {
-  production: true,
+  production: false,
 
   PATH: {
     ROOT: "",
     HOME: "home",
     AUTH: {
-      SING_IN: "signin",
-      SING_UP: "signup",
+      SING_IN: "sign-in",
+      SING_UP: "sign-up",
     },
     EMPLOYEES: {
       ROOT: "employees",
       EMPLOYEE: "employee",
-      EDIT: "edit/employee",
+      EMPLOYEE_FULL_PASS: "employees/employee",
+      EDIT: "edit-employee",
+      EDIT_FULL_PASS: "employees/edit-employee",
     },
     NOT_FOUND: "not-found",
   },
