@@ -3,17 +3,28 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 
 import { SharedModule } from "../shared-components/shared.module";
+import { AuthPageComponent } from "./auth-page/auth-page.component";
 import { LoggInComponent } from "./logg-in/logg-in.component";
 import { SingUpComponent } from "./sing-up/sing-up.component";
 import { environment } from "src/environments/environment";
+import { PreventAuthGuard } from "./prevent-auth.guard";
+
+const PATH = environment.PATH;
 
 @NgModule({
-  declarations: [LoggInComponent, SingUpComponent],
+  declarations: [LoggInComponent, SingUpComponent, AuthPageComponent],
 
   imports: [
     RouterModule.forChild([
-      { path: environment.PATH.AUTH.SING_IN, component: LoggInComponent },
-      { path: environment.PATH.AUTH.SING_UP, component: SingUpComponent },
+      {
+        path: "",
+        component: AuthPageComponent,
+        canActivate: [PreventAuthGuard],
+        children: [
+          { path: PATH.AUTH.SING_IN, component: LoggInComponent },
+          { path: PATH.AUTH.SING_UP, component: SingUpComponent },
+        ],
+      },
     ]),
     ReactiveFormsModule,
     SharedModule,

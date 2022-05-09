@@ -4,7 +4,7 @@
       <h2 class="employees_heading">
         Total Employees: {{ employees.length ? employees.length : "" }}
       </h2>
-      <button mat-button [routerLink]="EDIT">
+      <button mat-button [routerLink]="PATH.EMPLOYEES.EDIT">
         <mat-icon>person_add</mat-icon>
       </button>
       <div class="menu_options">
@@ -34,3 +34,8 @@
     </div>
   </div>
 </div>
+<app-error-notification
+  *ngIf="error"
+  [error]="error"
+  (onClose)="onErrorMsgClose()"
+></app-error-notification>

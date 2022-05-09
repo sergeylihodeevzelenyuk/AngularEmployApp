@@ -1,8 +1,10 @@
+@import "../../../mixins.scss";
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;
+  @include flex_gap_instead;
   flex-wrap: wrap;
   min-height: 36px;
   padding: 15px 30px;
@@ -21,7 +23,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 15px;
+    @include flex_gap_instead;
+
+    a {
+      color: white;
+      text-decoration: none;
+      appearance: none;
+    }
+
+    & .active {
+      border-bottom: 1px solid white;
+    }
   }
 
   &_icon {

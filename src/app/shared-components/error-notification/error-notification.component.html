@@ -1,9 +1,9 @@
 <div class="error">
   <div class="error_content">
-    <h2 class="error_title">{{ title }}</h2>
-    <p class="error_message" *ngIf="message">{{ message }}</p>
+    <h2 class="error_title">{{ error.title }}</h2>
+    <p class="error_message" *ngIf="error.message">{{ error.message }}</p>
     <div class="error_action">
-      <button mat-raised-button>OR</button>
+      <button mat-raised-button (click)="onCloseBtnClick()">OK</button>
     </div>
   </div>
 </div>

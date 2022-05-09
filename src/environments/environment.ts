@@ -5,6 +5,7 @@ export const environment = {
     ROOT: "",
     HOME: "home",
     AUTH: {
+      ROOT: "",
       SING_IN: "sign-in",
       SING_UP: "sign-up",
     },
@@ -20,5 +21,9 @@ export const environment = {
 
   URL: {
     EMPLOYEE: "https://employees-aa53b-default-rtdb.firebaseio.com/employees",
+  },
+
+  ERROR_MSG: {
+    HTTP_FAIL: "Failure Response",
   },
 };

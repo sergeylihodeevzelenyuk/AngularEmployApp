@@ -1,15 +1,17 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
+
+import { Error } from "src/app/shared-components/error-notification/error.model";
 
 @Component({
   selector: "app-error-notification",
   templateUrl: "./error-notification.component.html",
   styleUrls: ["./error-notification.component.scss"],
 })
-export class ErrorNotificationComponent implements OnInit {
-  @Input() title!: string;
-  @Input() message!: string;
+export class ErrorNotificationComponent {
+  @Input() error!: Error;
+  @Output() onClose = new EventEmitter<void>();
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  onCloseBtnClick() {
+    this.onClose.emit();
+  }
 }

@@ -5,6 +5,7 @@
 
   &_content {
     @include notification_content;
-    background-color: #efbcbc;
+    background-color: $error_red_backdrop;
+    color: $error_red_font;
   }
 }

@@ -12,8 +12,7 @@ import { environment } from "src/environments/environment";
 export class LoggInComponent implements OnInit {
   loggInForm!: FormGroup;
   hide = true;
-  HOME = environment.PATH.HOME;
-  SING_UP = "/" + environment.PATH.AUTH.SING_UP;
+  PATH = environment.PATH;
 
   constructor(private authService: AuthService, private route: Router) {}
 
@@ -35,7 +34,7 @@ export class LoggInComponent implements OnInit {
     const email = this.loggInForm?.get("email")!.value;
 
     this.authService.loggIn(email);
-    this.route.navigate([this.HOME]);
+    this.route.navigate([this.PATH.EMPLOYEES.ROOT]);
     this.loggInForm.reset();
   }
 

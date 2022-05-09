@@ -1,10 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Employee } from "./employee.model";
-import { map } from "rxjs/operators";
-import { Subject } from "rxjs";
-import { Router } from "@angular/router";
+import { map, tap } from "rxjs/operators";
 
+import { Employee } from "./employee.model";
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -13,29 +11,14 @@ import { environment } from "src/environments/environment";
 export class EmployeesService {
   private _employees: Employee[] = [];
   private URL = environment.URL.EMPLOYEE;
-  employeesSub = new Subject<Employee[]>();
-  isFetchingSub = new Subject<boolean>();
-  errorSub = new Subject<string>();
 
-  constructor(private http: HttpClient, private router: Router) {}
-
-  get employees() {
-    return this._employees;
-  }
-
-  getEmployeeById(id: string) {
-    return this._employees.find((item) => item.id === id);
-  }
+  constructor(private http: HttpClient) {}
 
   fetchEmployees() {
-    this.http
-      .get<Employee[]>(this.URL + ".json")
-      .pipe(map(this.modifyFetchingData))
-      .subscribe((employees) => {
-        this._employees = [...employees];
-        this.employeesSub.next(this._employees);
-        this.isFetchingSub.next(false);
-      });
+    return this.http.get<Employee[]>(this.URL + ".json").pipe(
+      map(this.modifyFetchingData),
+      tap((employees) => (this._employees = [...employees]))
+    );
   }
 
   addEmployee(employeeObj: Employee) {
@@ -58,8 +41,17 @@ export class EmployeesService {
     );
   }
 
+  get employees() {
+    return this._employees;
+  }
+
+  getEmployeeById(id: string) {
+    return this._employees.find((item) => item.id === id);
+  }
+
   private modifyFetchingData(employees: Employee[]) {
     const modifiedEmployees: Employee[] = [];
+
     for (let key in employees) {
       modifiedEmployees.push({ ...employees[key], id: key });
     }

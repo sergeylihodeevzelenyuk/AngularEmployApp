@@ -12,21 +12,15 @@ import { EmployeesService } from "./employees.service";
   providedIn: "root",
 })
 export class EmployeesResolverService implements Resolve<Employee[]> {
-  employees!: Employee[];
-
   constructor(private employeesServ: EmployeesService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.employeesServ.employees.length === 0) {
-      this.employeesServ.fetchEmployees();
+    const employees = this.employeesServ.employees;
 
-      this.employeesServ.employeesSub.subscribe(
-        (employees) => (this.employees = employees)
-      );
-
-      return this.employees;
+    if (employees.length === 0) {
+      return this.employeesServ.fetchEmployees();
     }
 
-    return this.employeesServ.employees;
+    return employees;
   }
 }

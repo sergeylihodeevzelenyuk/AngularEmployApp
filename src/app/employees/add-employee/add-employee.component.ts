@@ -1,9 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
+
 import { Employee } from "../employee.model";
 import { EmployeesService } from "../employees.service";
 import { environment } from "src/environments/environment";
+import { Error } from "src/app/shared-components/error-notification/error.model";
 
 enum Mode {
   add = 0,
@@ -20,11 +23,11 @@ export class AddEmployeeComponent implements OnInit {
   employee!: Employee;
   id!: string;
   mode!: number;
-  isFetching = false;
+  isFetching!: boolean;
+  error: Error | null = null;
+  PATH = environment.PATH;
+  ERROR_MSG = environment.ERROR_MSG;
   notification = { message: "Adding new employee", title: "" };
-
-  EMPLOYEE = "/" + environment.PATH.EMPLOYEES.EMPLOYEE_FULL_PASS;
-  EMPLOYEES = "/" + environment.PATH.EMPLOYEES.ROOT;
 
   constructor(
     private employeeServ: EmployeesService,
@@ -65,30 +68,49 @@ export class AddEmployeeComponent implements OnInit {
 
     if (this.mode === Mode.add) {
       this.isFetching = true;
-      this.employeeServ.addEmployee(employee).subscribe(() => {
-        this.isFetching = false;
-        this.router.navigate([this.EMPLOYEES]);
+      this.employeeServ.addEmployee(employee).subscribe({
+        next: () => {
+          this.isFetching = false;
+          this.router.navigate([this.PATH.EMPLOYEES]);
+        },
+        error: (error) => this.errorHandler(error),
       });
+
       return;
     }
 
     this.isFetching = true;
-    this.employeeServ.editEmployee(employee, this.id).subscribe(() => {
-      this.isFetching = false;
-      this.router.navigate([this.EMPLOYEES]);
+    this.employeeServ.editEmployee(employee, this.id).subscribe({
+      next: () => {
+        this.isFetching = false;
+        this.router.navigate([this.PATH.EMPLOYEES]);
+      },
+      error: (error) => this.errorHandler(error),
     });
   }
 
   onCancellClick() {
     if (this.mode === Mode.add) {
-      this.router.navigate([this.EMPLOYEES]);
-      console.log(this.mode);
+      this.router.navigate([this.PATH.EMPLOYEES]);
+
       return;
     }
-    this.router.navigate([this.EMPLOYEE], { queryParams: { id: this.id } });
+
+    this.router.navigate([this.PATH.EMPLOYEES.EMPLOYEE_FULL_PASS], {
+      queryParams: { id: this.id },
+    });
   }
 
-  getNewEmployee() {
+  onErrorMsgClose() {
+    this.error = null;
+  }
+
+  private errorHandler(error: HttpErrorResponse) {
+    this.isFetching = false;
+    this.error = new Error(this.ERROR_MSG.HTTP_FAIL, error.statusText);
+  }
+
+  private getNewEmployee() {
     return new Employee(
       this.addForm.value.name,
       this.addForm.value.position,

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 
 import { User } from "./auth-model";
 import { LocalstorageService } from "../shared-services/localstorage.service";
@@ -20,9 +20,8 @@ enum Props {
   providedIn: "root",
 })
 export class AuthService {
-  isLoggedSubject = new Subject<boolean>();
+  isLoggedSubject = new BehaviorSubject<boolean>(this.authStatus);
   currentUserSubject = new Subject<string>();
-
   isLogged = false;
 
   constructor(private localStorage: LocalstorageService) {
@@ -59,10 +58,10 @@ export class AuthService {
     this.isLoggedSubject.next(false);
   }
 
-  getAuthStatus() {
-    return this.localStorage.getItem(Props.isLogged) === Status.unlogged
-      ? false
-      : true;
+  get authStatus() {
+    return this.localStorage.getItem(Props.isLogged) === Status.logged
+      ? true
+      : false;
   }
 
   getCurrentUserInfo() {

@@ -1,25 +1,26 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { Subscription } from "rxjs";
+
 import { Employee } from "../employee.model";
 import { EmployeesService } from "../employees.service";
 import { environment } from "src/environments/environment";
+import { Error } from "src/app/shared-components/error-notification/error.model";
 
 @Component({
   selector: "app-employee",
   templateUrl: "./employee.component.html",
   styleUrls: ["./employee.component.scss"],
 })
-export class EmployeeComponent implements OnInit, OnDestroy {
-  private employsSub!: Subscription;
+export class EmployeeComponent implements OnInit {
   id!: string;
   employee!: Employee;
-  isFetching!: boolean;
   isDeleting!: boolean;
+  isConfirming!: boolean;
+  error: Error | null = null;
   panelOpenState = false;
+  PATH = environment.PATH;
+  ERROR_MSG = environment.ERROR_MSG;
   notification = { title: "Deleeting in process...", message: "" };
-  EMPLOYEES = "/" + environment.PATH.EMPLOYEES.ROOT;
-  EDIT = environment.PATH.EMPLOYEES.EDIT_FULL_PASS;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,41 +32,40 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe((params: Params) => {
       this.id = params["id"];
     });
-
-    if (this.employServ.employees.length) {
-      this.employee = this.employServ.getEmployeeById(this.id)!;
-    } else {
-      this.isFetching = true;
-
-      this.employsSub = this.employServ.employeesSub.subscribe((empls) => {
-        this.setEmloyee(empls);
-        this.isFetching = false;
-      });
-    }
+    this.employee = this.employServ.getEmployeeById(this.id)!;
   }
 
   onEditClick() {
-    this.router.navigate([this.EDIT], {
+    this.router.navigate([this.PATH.EMPLOYEES.EDIT_FULL_PASS], {
       queryParams: { id: this.id },
     });
   }
 
   onDeleteClick() {
+    this.isConfirming = true;
+  }
+
+  onOmitDeleting() {
+    this.isConfirming = false;
+  }
+
+  onConfirmDeleting() {
+    this.isConfirming = false;
     this.isDeleting = true;
 
-    this.employServ.deleteEmployee(this.id).subscribe(() => {
-      this.isDeleting = false;
-      this.router.navigate([this.EMPLOYEES]);
+    this.employServ.deleteEmployee(this.id).subscribe({
+      next: () => {
+        this.isDeleting = false;
+        this.router.navigate([this.PATH.EMPLOYEES.ROOT]);
+      },
+      error: (error) => {
+        this.isDeleting = false;
+        this.error = new Error(this.ERROR_MSG.HTTP_FAIL, error.statusText);
+      },
     });
   }
 
-  ngOnDestroy(): void {
-    if (this.employsSub) {
-      this.employsSub.unsubscribe();
-    }
-  }
-
-  private setEmloyee(empls: Employee[]) {
-    this.employee = empls.find((item) => item.id === this.id)!;
+  onErrorMsgClose() {
+    this.error = null;
   }
 }

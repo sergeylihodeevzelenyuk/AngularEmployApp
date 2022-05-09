@@ -99,3 +99,8 @@
   [message]="notification.title"
   [title]="notification.message"
 ></app-notification>
+<app-error-notification
+  *ngIf="error"
+  [error]="error"
+  (onClose)="onErrorMsgClose()"
+></app-error-notification>

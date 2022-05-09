@@ -1,24 +1,22 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Subscription } from "rxjs";
+
 import { Employee } from "../employee.model";
 import { EmployeesService } from "../employees.service";
 import { environment } from "src/environments/environment";
+import { Error } from "src/app/shared-components/error-notification/error.model";
 
 @Component({
   selector: "app-employees",
   templateUrl: "./employees.component.html",
   styleUrls: ["./employees.component.scss"],
 })
-export class EmployeesComponent implements OnInit, OnDestroy {
-  private contentSubscr!: Subscription;
-  private isFatchingSubscr!: Subscription;
-  private errorSubscr!: Subscription;
-  EMPLOYEE = environment.PATH.EMPLOYEES.EMPLOYEE;
-  EDIT = environment.PATH.EMPLOYEES.EDIT;
-
+export class EmployeesComponent implements OnInit {
+  PATH = environment.PATH;
+  ERROR_MSG = environment.ERROR_MSG;
   employees: Employee[] = [];
-  isFetching!: boolean;
+  isFetching = false;
+  error: Error | null = null;
 
   constructor(
     private employeesServ: EmployeesService,
@@ -27,26 +25,28 @@ export class EmployeesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.employeesServ.fetchEmployees();
     this.isFetching = true;
 
-    this.isFatchingSubscr = this.employeesServ.isFetchingSub.subscribe(
-      (isFatching) => (this.isFetching = isFatching)
-    );
-    this.contentSubscr = this.employeesServ.employeesSub.subscribe(
-      (employees) => (this.employees = employees)
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.contentSubscr.unsubscribe();
-    this.isFatchingSubscr.unsubscribe();
+    this.employeesServ.fetchEmployees().subscribe({
+      next: (employees) => {
+        this.employees = [...employees];
+        this.isFetching = false;
+      },
+      error: (error) => {
+        this.isFetching = false;
+        this.error = new Error(this.ERROR_MSG.HTTP_FAIL, error.statusText);
+      },
+    });
   }
 
   onEmployeeClick(id: any) {
-    this.router.navigate([this.EMPLOYEE], {
+    this.router.navigate([this.PATH.EMPLOYEES.EMPLOYEE], {
       relativeTo: this.route,
       queryParams: { id },
     });
+  }
+
+  onErrorMsgClose() {
+    this.error = null;
   }
 }

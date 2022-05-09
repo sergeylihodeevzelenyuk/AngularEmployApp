@@ -1,9 +1,15 @@
 <header class="header">
   <div class="header_nav-group">
     <div class="header_icon" (click)="onHomeClick()">Employ APP</div>
-    <div class="header_nav" *ngIf="isLogged">
-      <button mat-raised-button [routerLink]="EMPLOYEES">See employees</button>
-    </div>
+    <nav class="header_nav" *ngIf="isLogged">
+      <a
+        [routerLink]="EMPLOYEES"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Employees</a
+      >
+      <a [routerLink]="EDIT" routerLinkActive="active">Add employee</a>
+    </nav>
   </div>
   <div class="header_user user" *ngIf="isLogged">
     <div class="user_name">{{ userName }}</div>

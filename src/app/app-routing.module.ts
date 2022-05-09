@@ -4,11 +4,17 @@ import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
 import { environment } from "src/environments/environment";
 
+const PATH = environment.PATH;
+
 const appRoutes: Routes = [
-  { path: environment.PATH.ROOT, component: HomeComponent },
-  { path: environment.PATH.HOME, redirectTo: environment.PATH.ROOT },
+  { path: PATH.ROOT, component: HomeComponent },
+  { path: PATH.HOME, redirectTo: PATH.ROOT },
   {
-    path: environment.PATH.EMPLOYEES.ROOT,
+    path: PATH.AUTH.ROOT,
+    loadChildren: () => import("./auth/auth.module").then((m) => m.AuthModule),
+  },
+  {
+    path: PATH.EMPLOYEES.ROOT,
     loadChildren: () =>
       import("./employees/employees.module").then((m) => m.EmployeesModule),
   },
