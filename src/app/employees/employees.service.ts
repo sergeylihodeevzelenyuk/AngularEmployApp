@@ -49,7 +49,7 @@ export class EmployeesService {
     return this._employees.find((item) => item.id === id);
   }
 
-  private modifyFetchingData(employees: Employee[]) {
+  private modifyFetchingData(employees: any): Employee[] {
     const modifiedEmployees: Employee[] = [];
 
     for (let key in employees) {

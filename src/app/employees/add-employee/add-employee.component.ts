@@ -25,12 +25,12 @@ export class AddEmployeeComponent implements OnInit {
   mode!: number;
   isFetching!: boolean;
   error: Error | null = null;
-  PATH = environment.PATH;
-  ERROR_MSG = environment.ERROR_MSG;
   notification!: {
     message: string;
     title: string;
   };
+  PATH = environment.PATH;
+  ERROR_MSG = environment.ERROR_MSG;
 
   constructor(
     private employeeServ: EmployeesService,
