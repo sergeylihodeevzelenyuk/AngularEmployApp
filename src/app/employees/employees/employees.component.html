@@ -8,8 +8,10 @@
         <mat-icon>person_add</mat-icon>
       </button>
       <div class="menu_options">
-        <button mat-button class="menu_sort">
-          Sort A <mat-icon>trending_flat</mat-icon> Z
+        <button mat-button class="menu_sort" (click)="onSortClick()">
+          Sort {{ sortedAlphabetically ? "A" : "Z" }}
+          <mat-icon>trending_flat</mat-icon>
+          {{ sortedAlphabetically ? "Z" : "A" }}
         </button>
         <div class="menu_view">
           <button mat-button>
@@ -26,7 +28,10 @@
     <mat-spinner [diameter]="35"></mat-spinner>
   </div>
   <div class="employees_content">
-    <div class="employees_item-wrapper" *ngFor="let employee of employees">
+    <div
+      class="employees_item-wrapper"
+      *ngFor="let employee of employees | sort: sortedAlphabetically"
+    >
       <app-employee-card
         [employee]="employee"
         (onGetId)="onEmployeeClick($event)"

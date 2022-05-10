@@ -12,6 +12,7 @@ import { EmployeesResolverService } from "./employees-resolver.service";
 import { AuthGuard } from "../auth/auth.guard";
 import { environment } from "src/environments/environment";
 import { ConfirmDeletingComponent } from "./employee/confirm-deleting/confirm-deleting.component";
+import { SortPipe } from './sort.pipe';
 
 const PATH = environment.PATH;
 
@@ -23,6 +24,7 @@ const PATH = environment.PATH;
     EmployeeComponent,
     EmployeesPageComponent,
     ConfirmDeletingComponent,
+    SortPipe,
   ],
 
   imports: [
@@ -44,6 +46,7 @@ const PATH = environment.PATH;
           {
             path: PATH.EMPLOYEES.EDIT,
             component: AddEmployeeComponent,
+            resolve: [EmployeesResolverService],
           },
         ],
       },

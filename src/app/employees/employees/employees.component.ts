@@ -17,6 +17,7 @@ export class EmployeesComponent implements OnInit {
   employees: Employee[] = [];
   isFetching = false;
   error: Error | null = null;
+  sortedAlphabetically = true;
 
   constructor(
     private employeesServ: EmployeesService,
@@ -44,6 +45,10 @@ export class EmployeesComponent implements OnInit {
       relativeTo: this.route,
       queryParams: { id },
     });
+  }
+
+  onSortClick() {
+    this.sortedAlphabetically = !this.sortedAlphabetically;
   }
 
   onErrorMsgClose() {
