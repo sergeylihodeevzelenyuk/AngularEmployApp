@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedSub!: Subscription;
   userNameSub!: Subscription;
 
-  HOME = "/" + environment.PATH.HOME;
+  HOME = "/" + environment.PATH.ROOT;
   EMPLOYEES = "/" + environment.PATH.EMPLOYEES.ROOT;
   EDIT = "/" + environment.PATH.EMPLOYEES.EDIT_FULL_PASS;
   SING_IN = "/" + environment.PATH.AUTH.SING_IN;

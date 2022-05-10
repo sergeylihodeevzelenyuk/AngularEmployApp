@@ -29,10 +29,11 @@
       color: white;
       text-decoration: none;
       appearance: none;
-    }
 
-    & .active {
-      border-bottom: 1px solid white;
+      &:hover,
+      &.active {
+        border-bottom: 1px solid white;
+      }
     }
   }
 

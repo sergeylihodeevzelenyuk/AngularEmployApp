@@ -3,6 +3,12 @@
     <div class="header_icon" (click)="onHomeClick()">Employ APP</div>
     <nav class="header_nav" *ngIf="isLogged">
       <a
+        [routerLink]="HOME"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Home</a
+      >
+      <a
         [routerLink]="EMPLOYEES"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
