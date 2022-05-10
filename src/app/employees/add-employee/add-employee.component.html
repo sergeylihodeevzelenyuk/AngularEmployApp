@@ -79,7 +79,7 @@
         mat-stroked-button
         color="primary"
         type="submit"
-        [disabled]="!addForm.valid"
+        [disabled]="!addForm.valid || addForm.untouched"
       >
         {{ mode === 0 ? "Add" : "Confirm changes" }}
       </button>

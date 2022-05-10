@@ -27,7 +27,10 @@ export class AddEmployeeComponent implements OnInit {
   error: Error | null = null;
   PATH = environment.PATH;
   ERROR_MSG = environment.ERROR_MSG;
-  notification = { message: "Adding new employee", title: "" };
+  notification!: {
+    message: string;
+    title: string;
+  };
 
   constructor(
     private employeeServ: EmployeesService,
@@ -61,6 +64,12 @@ export class AddEmployeeComponent implements OnInit {
         Validators.required,
       ]),
     });
+
+    this.notification = {
+      message:
+        this.mode === Mode.add ? "Adding new employee" : "Updating employee",
+      title: "",
+    };
   }
 
   onAddFormSubmit() {
