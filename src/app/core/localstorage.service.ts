@@ -4,9 +4,7 @@ function getLocalStorage(): Storage {
   return localStorage;
 }
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable()
 export class LocalstorageService {
   private _localStorage;
 

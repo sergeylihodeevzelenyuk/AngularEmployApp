@@ -1,6 +1,9 @@
 <div class="employee">
-  <div>
-    <section class="employee_content">
+  <div class="employee_spinner" *ngIf="isFetched">
+    <mat-spinner [diameter]="35"></mat-spinner>
+  </div>
+  <div *ngIf="!isFetched">
+    <section class="employee_content" *ngIf="!isFetched">
       <div class="employee_main">
         <span class="employee_data">{{ employee.date }}</span>
         <div class="employee_photo">
@@ -65,7 +68,7 @@
       <button
         mat-raised-button
         type="button"
-        [routerLink]="'/' + PATH.EMPLOYEES.ROOT"
+        [routerLink]="'/' + ROUTE.EMPLOYEES.ROOT"
       >
         Back to employees
       </button>
@@ -81,12 +84,12 @@
   [title]="notification.message"
 ></app-notification>
 <app-confirm-deleting
-  *ngIf="isConfirming"
+  *ngIf="isConfirmingDeleting"
   (onCancell)="onOmitDeleting()"
   (onConfirm)="onConfirmDeleting()"
 ></app-confirm-deleting>
 <app-error-notification
   *ngIf="error"
   [error]="error"
-  (onClose)="onErrorMsgClose()"
+  (onClose)="onErrorMessageClose()"
 ></app-error-notification>

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Subject } from "rxjs";
 
 import { User } from "./auth-model";
-import { LocalstorageService } from "../shared-services/localstorage.service";
+import { LocalstorageService } from "../core/localstorage.service";
 
 enum Status {
   unlogged = "0",

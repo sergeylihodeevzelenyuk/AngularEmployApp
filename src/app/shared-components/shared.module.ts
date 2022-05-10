@@ -50,5 +50,6 @@ import { ErrorNotificationComponent } from "./error-notification/error-notificat
     MatProgressSpinnerModule,
     MatExpansionModule,
   ],
+  providers: [],
 })
 export class SharedModule {}

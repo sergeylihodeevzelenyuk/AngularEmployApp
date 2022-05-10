@@ -3,20 +3,19 @@
     {{ mode === 0 ? "Add a new employee" : "Edit an employee" }}
   </h2>
   <form
+    *ngIf="!isFetching"
     class="add-empl_form"
-    [formGroup]="addForm"
+    [formGroup]="editForm"
     (ngSubmit)="onAddFormSubmit()"
   >
     <div class="add-empl_form-set">
       <div class="add-empl_form-required">
-        <h3>Required information</h3>
+        <h3>The most needed information</h3>
         <div class="add-empl_form-control">
-          <label for="name">Name</label>
           <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Name</mat-label>
+            <mat-label>Name and thirname</mat-label>
             <input
               formControlName="name"
-              id="name"
               type="text"
               matInput
               placeholder="Ex. Ivo Bobul"
@@ -24,12 +23,16 @@
           </mat-form-field>
         </div>
         <div class="add-empl_form-control">
-          <label for="position">Position</label>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Account img url (not required)</mat-label>
+            <input formControlName="imgPath" id="img" type="text" matInput />
+          </mat-form-field>
+        </div>
+        <div class="add-empl_form-control">
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Position</mat-label>
             <input
               formControlName="position"
-              id="position"
               type="text"
               matInput
               placeholder="Ex. Front-end dev."
@@ -37,12 +40,10 @@
           </mat-form-field>
         </div>
         <div class="add-empl_form-control">
-          <label for="email">Email</label>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Email</mat-label>
             <input
               formControlName="email"
-              id="email"
               type="email"
               matInput
               placeholder="Ex. something@gmail.com"
@@ -50,12 +51,10 @@
           </mat-form-field>
         </div>
         <div class="add-empl_form-control">
-          <label for="phone">Phone</label>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Phone</mat-label>
             <input
               formControlName="phone"
-              id="phone"
               type="tel"
               matInput
               placeholder="Ex. +380989983256"
@@ -66,10 +65,33 @@
       <div class="add-empl_form-additional">
         <h3>Additional information</h3>
         <div class="add-empl_form-control">
-          <label for="img">Account img url</label>
           <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Account img url</mat-label>
-            <input formControlName="imgPath" id="img" type="text" matInput />
+            <mat-label>Team</mat-label>
+            <input type="text" matInput placeholder="Guardians of the Galaxy" />
+          </mat-form-field>
+        </div>
+        <div class="add-empl_form-control">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Birthday</mat-label>
+            <input type="date" matInput />
+          </mat-form-field>
+        </div>
+        <div class="add-empl_form-control">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Start date</mat-label>
+            <input type="date" matInput />
+          </mat-form-field>
+        </div>
+        <div class="add-empl_form-control">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Hobbyes</mat-label>
+            <input type="text" matInput placeholder="Ex. Ciclings" />
+          </mat-form-field>
+        </div>
+        <div class="add-empl_form-control">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Family</mat-label>
+            <input type="text" matInput placeholder="Ex. cat Alicia" />
           </mat-form-field>
         </div>
       </div>
@@ -79,7 +101,7 @@
         mat-stroked-button
         color="primary"
         type="submit"
-        [disabled]="!addForm.valid || addForm.untouched"
+        [disabled]="!editForm.valid || editForm.untouched"
       >
         {{ mode === 0 ? "Add" : "Confirm changes" }}
       </button>

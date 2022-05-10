@@ -7,11 +7,7 @@ import { Employee } from "../employee.model";
 import { EmployeesService } from "../employees.service";
 import { environment } from "src/environments/environment";
 import { Error } from "src/app/shared-components/error-notification/error.model";
-
-enum Mode {
-  add = 0,
-  edit,
-}
+import { Mode } from "./mode.enum";
 
 @Component({
   selector: "app-add-employee",
@@ -19,7 +15,7 @@ enum Mode {
   styleUrls: ["./add-employee.component.scss"],
 })
 export class AddEmployeeComponent implements OnInit {
-  addForm!: FormGroup;
+  editForm!: FormGroup;
   employee!: Employee;
   id!: string;
   mode!: number;
@@ -29,28 +25,47 @@ export class AddEmployeeComponent implements OnInit {
     message: string;
     title: string;
   };
-  PATH = environment.PATH;
+  ROUTE = environment.PATH;
+  MODE_ENUM = Mode;
   ERROR_MSG = environment.ERROR_MSG;
 
   constructor(
-    private employeeServ: EmployeesService,
+    private employeesService: EmployeesService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.isFetching = true;
+    this.setNotification();
+
     this.route.queryParams.subscribe((params: Params) => {
       if (params["id"]) {
         this.id = params["id"];
-        this.mode = Mode.edit;
-        this.employee = this.employeeServ.getEmployeeById(this.id)!;
+        this.mode = this.MODE_ENUM.edit;
+
+        this.employeesService.fetch(this.id).subscribe({
+          next: (fetchedEmployee) => {
+            this.employee = fetchedEmployee;
+            this.isFetching = false;
+            this.setEditForm();
+            this.setNotification();
+          },
+          error: (error) => this.errorHandler(error),
+        });
+
         return;
       }
 
-      this.mode = Mode.add;
+      this.isFetching = false;
+      this.mode = this.MODE_ENUM.add;
+      this.setEditForm();
+      this.setNotification();
     });
+  }
 
-    this.addForm = new FormGroup({
+  setEditForm() {
+    this.editForm = new FormGroup({
       name: new FormControl(null || this.employee?.name, [Validators.required]),
       imgPath: new FormControl(null || this.employee?.imgPath),
       position: new FormControl(null || this.employee?.position, [
@@ -64,10 +79,23 @@ export class AddEmployeeComponent implements OnInit {
         Validators.required,
       ]),
     });
+  }
+
+  setNotification() {
+    if (this.isFetching) {
+      this.notification = {
+        message: "Fetching employee data",
+        title: "",
+      };
+
+      return;
+    }
 
     this.notification = {
       message:
-        this.mode === Mode.add ? "Adding new employee" : "Updating employee",
+        this.mode === this.MODE_ENUM.add
+          ? "Adding new employee"
+          : "Updating employee",
       title: "",
     };
   }
@@ -75,12 +103,12 @@ export class AddEmployeeComponent implements OnInit {
   onAddFormSubmit() {
     const employee = this.getNewEmployee();
 
-    if (this.mode === Mode.add) {
+    if (this.mode === this.MODE_ENUM.add) {
       this.isFetching = true;
-      this.employeeServ.addEmployee(employee).subscribe({
+      this.employeesService.add(employee).subscribe({
         next: () => {
           this.isFetching = false;
-          this.router.navigate([this.PATH.EMPLOYEES]);
+          this.router.navigate([this.ROUTE.EMPLOYEES]);
         },
         error: (error) => this.errorHandler(error),
       });
@@ -89,23 +117,23 @@ export class AddEmployeeComponent implements OnInit {
     }
 
     this.isFetching = true;
-    this.employeeServ.editEmployee(employee, this.id).subscribe({
+    this.employeesService.edit(employee, this.id).subscribe({
       next: () => {
         this.isFetching = false;
-        this.router.navigate([this.PATH.EMPLOYEES]);
+        this.router.navigate([this.ROUTE.EMPLOYEES]);
       },
       error: (error) => this.errorHandler(error),
     });
   }
 
   onCancellClick() {
-    if (this.mode === Mode.add) {
-      this.router.navigate([this.PATH.EMPLOYEES]);
+    if (this.mode === this.MODE_ENUM.add) {
+      this.router.navigate([this.ROUTE.EMPLOYEES]);
 
       return;
     }
 
-    this.router.navigate([this.PATH.EMPLOYEES.EMPLOYEE_FULL_PASS], {
+    this.router.navigate([this.ROUTE.EMPLOYEES.EMPLOYEE_FULL_PASS], {
       queryParams: { id: this.id },
     });
   }
@@ -121,12 +149,12 @@ export class AddEmployeeComponent implements OnInit {
 
   private getNewEmployee() {
     return new Employee(
-      this.addForm.value.name,
-      this.addForm.value.position,
-      this.addForm.value.email,
-      this.addForm.value.phone,
-      this.addForm.value.data ? this.addForm.value.data : "",
-      this.addForm.value.imgPath ? this.addForm.value.imgPath : ""
+      this.editForm.value.name,
+      this.editForm.value.position,
+      this.editForm.value.email,
+      this.editForm.value.phone,
+      this.editForm.value.data ? this.editForm.value.data : "",
+      this.editForm.value.imgPath ? this.editForm.value.imgPath : ""
     );
   }
 }

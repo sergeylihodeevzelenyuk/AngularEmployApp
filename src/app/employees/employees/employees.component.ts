@@ -12,12 +12,12 @@ import { Error } from "src/app/shared-components/error-notification/error.model"
   styleUrls: ["./employees.component.scss"],
 })
 export class EmployeesComponent implements OnInit {
-  PATH = environment.PATH;
-  ERROR_MSG = environment.ERROR_MSG;
   employees: Employee[] = [];
   isFetching = false;
-  error: Error | null = null;
   sortedAlphabetically = true;
+  error: Error | null = null;
+  ROUT = environment.PATH;
+  ERROR_MSG = environment.ERROR_MSG;
 
   constructor(
     private employeesServ: EmployeesService,
@@ -28,7 +28,7 @@ export class EmployeesComponent implements OnInit {
   ngOnInit(): void {
     this.isFetching = true;
 
-    this.employeesServ.fetchEmployees().subscribe({
+    this.employeesServ.fetchAll().subscribe({
       next: (employees) => {
         this.employees = [...employees];
         this.isFetching = false;
@@ -41,7 +41,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   onEmployeeClick(id: any) {
-    this.router.navigate([this.PATH.EMPLOYEES.EMPLOYEE], {
+    this.router.navigate([this.ROUT.EMPLOYEES.EMPLOYEE], {
       relativeTo: this.route,
       queryParams: { id },
     });
