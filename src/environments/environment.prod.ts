@@ -26,4 +26,11 @@ export const environment = {
   ERROR_MSG: {
     HTTP_FAIL: "Failure Response",
   },
+
+  NOTIFICATION: {
+    DELETE: "Deleeting in process...",
+    FETCH: "Fetching employee data",
+    ADD: "Adding new employee",
+    UPDATE: "Updating employee",
+  },
 };

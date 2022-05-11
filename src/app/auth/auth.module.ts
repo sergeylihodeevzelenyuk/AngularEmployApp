@@ -9,7 +9,7 @@ import { SingUpComponent } from "./sing-up/sing-up.component";
 import { environment } from "src/environments/environment";
 import { PreventAuthGuard } from "./prevent-auth.guard";
 
-const PATH = environment.PATH;
+const ROUT = environment.PATH;
 
 @NgModule({
   declarations: [LoggInComponent, SingUpComponent, AuthPageComponent],
@@ -21,8 +21,8 @@ const PATH = environment.PATH;
         component: AuthPageComponent,
         canActivate: [PreventAuthGuard],
         children: [
-          { path: PATH.AUTH.SING_IN, component: LoggInComponent },
-          { path: PATH.AUTH.SING_UP, component: SingUpComponent },
+          { path: ROUT.AUTH.SING_IN, component: LoggInComponent },
+          { path: ROUT.AUTH.SING_UP, component: SingUpComponent },
         ],
       },
     ]),

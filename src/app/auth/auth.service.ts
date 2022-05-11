@@ -3,18 +3,7 @@ import { BehaviorSubject, Subject } from "rxjs";
 
 import { User } from "./auth-model";
 import { LocalstorageService } from "../core/localstorage.service";
-
-enum Status {
-  unlogged = "0",
-  logged = "1",
-}
-
-enum Props {
-  isLogged = "isLogged",
-  user = "user",
-  users = "users",
-  currentUser = "currentUser",
-}
+import { Status, Props } from "./auth.enum";
 
 @Injectable({
   providedIn: "root",
@@ -28,47 +17,47 @@ export class AuthService {
     this.configureAuthEnvironment();
   }
 
-  configureAuthEnvironment() {
+  private configureAuthEnvironment(): void {
     this.createLoggStatus();
     this.createInitialUsers();
   }
 
-  createLoggStatus() {
+  private createLoggStatus(): void {
     if (!this.localStorage.hasItem(Props.isLogged)) {
       this.localStorage.createItem(Props.isLogged, Status.unlogged);
     }
   }
 
-  createInitialUsers() {
+  private createInitialUsers(): void {
     if (!this.localStorage.hasItem(Props.users)) {
       this.localStorage.createItem(Props.users, JSON.stringify([]));
     }
   }
 
-  loggIn(email: string) {
+  loggIn(email: string): void {
     this.localStorage.updateItem(Props.isLogged, Status.logged);
     this.localStorage.createItem(Props.currentUser, JSON.stringify(email));
     this.isLoggedSubject.next(true);
     this.currentUserSubject.next(email);
   }
 
-  loggOut() {
+  loggOut(): void {
     this.localStorage.updateItem(Props.isLogged, Status.unlogged);
     this.localStorage.deleteItem(Props.currentUser);
     this.isLoggedSubject.next(false);
   }
 
-  get authStatus() {
+  get authStatus(): boolean {
     return this.localStorage.getItem(Props.isLogged) === Status.logged
       ? true
       : false;
   }
 
-  getCurrentUserInfo() {
+  getCurrentUserInfo(): string {
     return JSON.parse(this.localStorage.getItem(Props.currentUser));
   }
 
-  getAllUsers() {
+  private getAllUsers(): User[] {
     return JSON.parse(this.localStorage.getItem(Props.users)!);
   }
 
@@ -78,7 +67,7 @@ export class AuthService {
     return users.find((user: User) => user.email === email);
   }
 
-  addNewUser(user: User) {
+  addNewUser(user: User): void {
     const users = this.getAllUsers();
 
     users.push(user);

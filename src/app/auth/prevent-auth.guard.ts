@@ -16,7 +16,7 @@ import { environment } from "src/environments/environment";
 })
 export class PreventAuthGuard implements CanActivate {
   constructor(private authServ: AuthService, private router: Router) {}
-  PATH = environment.PATH;
+  ROUT = environment.PATH;
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -33,7 +33,7 @@ export class PreventAuthGuard implements CanActivate {
           return true;
         }
 
-        return this.router.createUrlTree([this.PATH.HOME]);
+        return this.router.createUrlTree([this.ROUT.HOME]);
       })
     );
   }

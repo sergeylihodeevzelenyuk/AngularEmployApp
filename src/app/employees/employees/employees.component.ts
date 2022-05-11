@@ -17,10 +17,9 @@ export class EmployeesComponent implements OnInit {
   sortedAlphabetically = true;
   error: Error | null = null;
   ROUT = environment.PATH;
-  ERROR_MSG = environment.ERROR_MSG;
 
   constructor(
-    private employeesServ: EmployeesService,
+    private employeesService: EmployeesService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -28,14 +27,14 @@ export class EmployeesComponent implements OnInit {
   ngOnInit(): void {
     this.isFetching = true;
 
-    this.employeesServ.fetchAll().subscribe({
-      next: (employees) => {
-        this.employees = [...employees];
+    this.employeesService.fetchAll().subscribe({
+      next: (fetchetEmployees) => {
+        this.employees = [...fetchetEmployees];
         this.isFetching = false;
       },
       error: (error) => {
         this.isFetching = false;
-        this.error = new Error(this.ERROR_MSG.HTTP_FAIL, error.statusText);
+        this.error = error;
       },
     });
   }
@@ -53,5 +52,6 @@ export class EmployeesComponent implements OnInit {
 
   onErrorMsgClose() {
     this.error = null;
+    this.router.navigate([this.ROUT.HOME]);
   }
 }

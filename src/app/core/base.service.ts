@@ -30,9 +30,7 @@ export abstract class BaseService<T> {
   }
 
   delete(id: string): Observable<any> {
-    return this.http.delete<{ [key: string]: string }>(
-      `${this.URL}/${id}.json`
-    );
+    return this.http.delete<void>(`${this.URL}/${id}.json`);
   }
 
   private modifyData(response: any): T[] {

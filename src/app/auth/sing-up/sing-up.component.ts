@@ -15,7 +15,7 @@ export class SingUpComponent implements OnInit {
   singUpForm!: FormGroup;
   hidePass = true;
   hidePassConfirm = true;
-  SING_IN = "/" + environment.PATH.AUTH.SING_IN;
+  ROUT = environment.PATH;
 
   constructor(private authService: AuthService, private route: Router) {}
 
@@ -41,7 +41,7 @@ export class SingUpComponent implements OnInit {
     );
 
     this.authService.addNewUser(user);
-    this.route.navigate([this.SING_IN]);
+    this.route.navigate([this.ROUT.AUTH.SING_IN]);
     this.singUpForm.reset();
   }
 

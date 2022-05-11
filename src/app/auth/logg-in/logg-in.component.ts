@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+
 import { AuthService } from "../auth.service";
 import { environment } from "src/environments/environment";
 
@@ -12,7 +13,7 @@ import { environment } from "src/environments/environment";
 export class LoggInComponent implements OnInit {
   loggInForm!: FormGroup;
   hide = true;
-  PATH = environment.PATH;
+  ROUT = environment.PATH;
 
   constructor(private authService: AuthService, private route: Router) {}
 
@@ -34,7 +35,7 @@ export class LoggInComponent implements OnInit {
     const email = this.loggInForm?.get("email")!.value;
 
     this.authService.loggIn(email);
-    this.route.navigate([this.PATH.EMPLOYEES.ROOT]);
+    this.route.navigate([this.ROUT.EMPLOYEES.ROOT]);
     this.loggInForm.reset();
   }
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { HttpErrorResponse } from "@angular/common/http";
+import { ActivatedRoute, Router } from "@angular/router";
 
 import { Employee } from "../employee.model";
 import { EmployeesService } from "../employees.service";
@@ -19,15 +18,12 @@ export class AddEmployeeComponent implements OnInit {
   employee!: Employee;
   id!: string;
   mode!: number;
-  isFetching!: boolean;
+  isFetching = false;
   error: Error | null = null;
-  notification!: {
-    message: string;
-    title: string;
-  };
+  notification!: string;
+  NOTIFICATION = environment.NOTIFICATION;
   ROUTE = environment.PATH;
-  MODE_ENUM = Mode;
-  ERROR_MSG = environment.ERROR_MSG;
+  MODE = Mode;
 
   constructor(
     private employeesService: EmployeesService,
@@ -36,32 +32,31 @@ export class AddEmployeeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isFetching = true;
-    this.setNotification();
-
-    this.route.queryParams.subscribe((params: Params) => {
-      if (params["id"]) {
-        this.id = params["id"];
-        this.mode = this.MODE_ENUM.edit;
-
-        this.employeesService.fetch(this.id).subscribe({
-          next: (fetchedEmployee) => {
-            this.employee = fetchedEmployee;
-            this.isFetching = false;
-            this.setEditForm();
-            this.setNotification();
-          },
-          error: (error) => this.errorHandler(error),
-        });
-
-        return;
-      }
-
-      this.isFetching = false;
-      this.mode = this.MODE_ENUM.add;
-      this.setEditForm();
+    if (this.idFromQueryParams) {
+      this.isFetching = true;
       this.setNotification();
-    });
+      this.id = this.idFromQueryParams;
+      this.mode = this.MODE.edit;
+
+      this.employeesService.fetch(this.id).subscribe({
+        next: (fetchedEmployee) => {
+          this.employee = fetchedEmployee;
+          this.isFetching = false;
+          this.setEditForm();
+          this.setNotification();
+        },
+        error: (error) => {
+          this.isFetching = false;
+          this.error = error;
+        },
+      });
+
+      return;
+    }
+
+    this.mode = this.MODE.add;
+    this.setEditForm();
+    this.setNotification();
   }
 
   setEditForm() {
@@ -83,34 +78,31 @@ export class AddEmployeeComponent implements OnInit {
 
   setNotification() {
     if (this.isFetching) {
-      this.notification = {
-        message: "Fetching employee data",
-        title: "",
-      };
+      this.notification = this.NOTIFICATION.FETCH;
 
       return;
     }
 
-    this.notification = {
-      message:
-        this.mode === this.MODE_ENUM.add
-          ? "Adding new employee"
-          : "Updating employee",
-      title: "",
-    };
+    this.notification =
+      this.mode === this.MODE.add
+        ? this.NOTIFICATION.ADD
+        : this.NOTIFICATION.UPDATE;
   }
 
   onAddFormSubmit() {
     const employee = this.getNewEmployee();
 
-    if (this.mode === this.MODE_ENUM.add) {
+    if (this.mode === this.MODE.add) {
       this.isFetching = true;
       this.employeesService.add(employee).subscribe({
         next: () => {
           this.isFetching = false;
           this.router.navigate([this.ROUTE.EMPLOYEES]);
         },
-        error: (error) => this.errorHandler(error),
+        error: (error) => {
+          this.isFetching = false;
+          this.error = error;
+        },
       });
 
       return;
@@ -122,12 +114,15 @@ export class AddEmployeeComponent implements OnInit {
         this.isFetching = false;
         this.router.navigate([this.ROUTE.EMPLOYEES]);
       },
-      error: (error) => this.errorHandler(error),
+      error: (error) => {
+        this.isFetching = false;
+        this.error = error;
+      },
     });
   }
 
   onCancellClick() {
-    if (this.mode === this.MODE_ENUM.add) {
+    if (this.mode === this.MODE.add) {
       this.router.navigate([this.ROUTE.EMPLOYEES]);
 
       return;
@@ -142,9 +137,8 @@ export class AddEmployeeComponent implements OnInit {
     this.error = null;
   }
 
-  private errorHandler(error: HttpErrorResponse) {
-    this.isFetching = false;
-    this.error = new Error(this.ERROR_MSG.HTTP_FAIL, error.statusText);
+  private get idFromQueryParams(): string | undefined {
+    return this.route.snapshot.queryParams["id"];
   }
 
   private getNewEmployee() {

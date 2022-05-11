@@ -3,7 +3,7 @@
     {{ mode === 0 ? "Add a new employee" : "Edit an employee" }}
   </h2>
   <form
-    *ngIf="!isFetching"
+    *ngIf="!isFetching && !error"
     class="add-empl_form"
     [formGroup]="editForm"
     (ngSubmit)="onAddFormSubmit()"
@@ -116,11 +116,7 @@
     </div>
   </form>
 </div>
-<app-notification
-  *ngIf="isFetching"
-  [message]="notification.title"
-  [title]="notification.message"
-></app-notification>
+<app-notification *ngIf="isFetching" [title]="notification"></app-notification>
 <app-error-notification
   *ngIf="error"
   [error]="error"

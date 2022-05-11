@@ -14,14 +14,13 @@ import { Error } from "src/app/shared-components/error-notification/error.model"
 export class EmployeeComponent implements OnInit {
   id!: string;
   employee!: Employee;
-  isFetched!: boolean;
-  isDeleting!: boolean;
-  isConfirmingDeleting!: boolean;
+  isFetching = true;
+  isDeletingProcess = false;
+  isConfirmingDeleting = false;
   error: Error | null = null;
   panelOpenState = false;
   ROUTE = environment.PATH;
-  ERROR_MSG = environment.ERROR_MSG;
-  notification = { message: "Deleeting in process...", title: "" };
+  NOTIFICATION = environment.NOTIFICATION.DELETE;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,19 +29,16 @@ export class EmployeeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isFetched = true;
-    this.route.queryParams.subscribe((params: Params) => {
-      this.id = params["id"];
-    });
+    this.id = this.route.snapshot.queryParams["id"];
 
     this.employeesService.fetch(this.id).subscribe({
       next: (fetchedEmployee) => {
         this.employee = fetchedEmployee;
-        this.isFetched = false;
+        this.isFetching = false;
       },
       error: (error) => {
-        this.isFetched = false;
-        this.error = new Error(this.ERROR_MSG.HTTP_FAIL, error.statusText);
+        this.isFetching = false;
+        this.error = error;
       },
     });
   }
@@ -63,21 +59,22 @@ export class EmployeeComponent implements OnInit {
 
   onConfirmDeleting() {
     this.isConfirmingDeleting = false;
-    this.isDeleting = true;
+    this.isDeletingProcess = true;
 
     this.employeesService.delete(this.id).subscribe({
       next: () => {
-        this.isDeleting = false;
+        this.isDeletingProcess = false;
         this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
       },
       error: (error) => {
-        this.isDeleting = false;
-        this.error = new Error(this.ERROR_MSG.HTTP_FAIL, error.statusText);
+        this.isDeletingProcess = false;
+        this.error = error;
       },
     });
   }
 
   onErrorMessageClose() {
     this.error = null;
+    this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
   }
 }
