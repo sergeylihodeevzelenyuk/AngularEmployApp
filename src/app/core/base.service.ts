@@ -15,17 +15,14 @@ export abstract class BaseService<T> {
       .pipe(map((fetchedItem) => ({ ...fetchedItem, id })));
   }
 
-  add(employee: T): Observable<{ [key: string]: string }> {
-    return this.http.post<{ [key: string]: string }>(
-      `${this.URL}.json`,
-      employee
-    );
+  add(item: T): Observable<{ [key: string]: string }> {
+    return this.http.post<{ [key: string]: string }>(`${this.URL}.json`, item);
   }
 
-  edit(employee: T, id: string): Observable<any> {
+  edit(item: T, id: string): Observable<any> {
     return this.http.put<{ [key: string]: string }>(
       `${this.URL}/${id}.json`,
-      employee
+      item
     );
   }
 
@@ -34,12 +31,12 @@ export abstract class BaseService<T> {
   }
 
   private modifyData(response: any): T[] {
-    const modifiedEmployees: T[] = [];
+    const modifiedItems: T[] = [];
 
     for (let key in response) {
-      modifiedEmployees.push({ ...response[key], id: key });
+      modifiedItems.push({ ...response[key], id: key });
     }
 
-    return modifiedEmployees;
+    return modifiedItems;
   }
 }
