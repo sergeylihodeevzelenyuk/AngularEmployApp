@@ -12,7 +12,7 @@ export abstract class BaseService<T> {
   fetch(id: string): Observable<T> {
     return this.http
       .get<T>(`${this.URL}/${id}.json`)
-      .pipe(map((fetchedEmployee) => ({ ...fetchedEmployee, id })));
+      .pipe(map((fetchedItem) => ({ ...fetchedItem, id })));
   }
 
   add(employee: T): Observable<{ [key: string]: string }> {
