@@ -1,17 +1,17 @@
-import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Employee, Additional } from "../employee.model";
-import { EmployeesService } from "../employees.service";
-import { environment } from "src/environments/environment";
-import { Error } from "src/app/shared/error-notification/error.model";
-import { Mode } from "./mode.enum";
+import { Employee, Additional } from '../employee.model';
+import { EmployeesService } from '../employees.service';
+import { environment } from 'src/environments/environment';
+import { Error } from 'src/app/shared/error-notification/error.model';
+import { Mode } from './mode.enum';
 
 @Component({
-  selector: "app-add-employee",
-  templateUrl: "./add-employee.component.html",
-  styleUrls: ["./add-employee.component.scss"],
+  selector: 'app-add-employee',
+  templateUrl: './add-employee.component.html',
+  styleUrls: ['./add-employee.component.scss'],
 })
 export class AddEmployeeComponent implements OnInit {
   editForm!: FormGroup;
@@ -144,7 +144,7 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   private get idFromQueryParams(): string | undefined {
-    return this.route.snapshot.queryParams["id"];
+    return this.route.snapshot.queryParams['id'];
   }
 
   private get newEmployee(): Employee {
@@ -153,8 +153,8 @@ export class AddEmployeeComponent implements OnInit {
       this.editForm.value.position,
       this.editForm.value.email,
       this.editForm.value.phone,
-      this.editForm.value.imgPath ? this.editForm.value.imgPath : "",
-      this.id ? this.id : "",
+      this.editForm.value.imgPath ? this.editForm.value.imgPath : '',
+      this.id ? this.id : '',
       this.additional
     );
   }
@@ -163,19 +163,19 @@ export class AddEmployeeComponent implements OnInit {
     return new Additional(
       this.editForm.value.additional.team
         ? this.editForm.value.additional.team
-        : "",
+        : '',
       this.editForm.value.additional.birthday
         ? this.editForm.value.additional.birthday
-        : "",
+        : '',
       this.editForm.value.additional.startDate
         ? this.editForm.value.additional.startDate
-        : "",
+        : '',
       this.editForm.value.additional.family
         ? this.editForm.value.additional.family
-        : "",
+        : '',
       this.editForm.value.additional.hobbies
         ? this.editForm.value.additional.hobbies
-        : ""
+        : ''
     );
   }
 }

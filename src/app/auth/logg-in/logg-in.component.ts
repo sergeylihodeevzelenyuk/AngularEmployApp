@@ -1,14 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { AuthService } from "../auth.service";
-import { environment } from "src/environments/environment";
+import { AuthService } from '../auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: "app-logg-in",
-  templateUrl: "./logg-in.component.html",
-  styleUrls: ["./logg-in.component.scss"],
+  selector: 'app-logg-in',
+  templateUrl: './logg-in.component.html',
+  styleUrls: ['./logg-in.component.scss'],
 })
 export class LoggInComponent implements OnInit {
   loggInForm!: FormGroup;
@@ -19,7 +19,7 @@ export class LoggInComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggInForm = new FormGroup({
-      email: new FormControl("", [
+      email: new FormControl('', [
         Validators.required,
         Validators.email,
         this.isEmailExist.bind(this),
@@ -32,7 +32,7 @@ export class LoggInComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const email = this.loggInForm?.get("email")!.value;
+    const email = this.loggInForm?.get('email')!.value;
 
     this.authService.loggIn(email);
     this.route.navigate([this.ROUT.EMPLOYEES.ROOT]);

@@ -1,17 +1,17 @@
-import { NgModule } from "@angular/core";
-import { RouterModule } from "@angular/router";
-import { ReactiveFormsModule } from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { EmployeesComponent } from "./employees/employees.component";
-import { EmployeeCardComponent } from "./employees/employee-card/employee-card.component";
-import { AddEmployeeComponent } from "./add-employee/add-employee.component";
-import { EmployeeComponent } from "./employee/employee.component";
-import { EmployeesPageComponent } from "./employees-page/employees-page.component";
-import { SharedModule } from "../shared/shared.module";
-import { AuthGuard } from "../auth/auth.guard";
-import { environment } from "src/environments/environment";
-import { ConfirmDeletingComponent } from "./employee/confirm-deleting/confirm-deleting.component";
-import { SortPipe } from "./sort.pipe";
+import { EmployeesComponent } from './employees/employees.component';
+import { EmployeeCardComponent } from './employees/employee-card/employee-card.component';
+import { AddEmployeeComponent } from './add-employee/add-employee.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { EmployeesPageComponent } from './employees-page/employees-page.component';
+import { SharedModule } from '../shared/shared.module';
+import { AuthGuard } from '../auth/auth.guard';
+import { environment } from 'src/environments/environment';
+import { ConfirmDeletingComponent } from './employee/confirm-deleting/confirm-deleting.component';
+import { SortPipe } from './sort.pipe';
 
 const ROUT = environment.PATH;
 
@@ -29,12 +29,12 @@ const ROUT = environment.PATH;
   imports: [
     RouterModule.forChild([
       {
-        path: "",
+        path: '',
         component: EmployeesPageComponent,
         canActivate: [AuthGuard],
         children: [
           {
-            path: "",
+            path: '',
             component: EmployeesComponent,
           },
           {

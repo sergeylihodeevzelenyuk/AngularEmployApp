@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Subject } from "rxjs";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 
-import { User } from "./auth-model";
-import { LocalstorageService } from "../core/localstorage.service";
-import { Status, Props } from "./auth.enum";
+import { User } from './auth-model';
+import { LocalstorageService } from '../core/localstorage.service';
+import { Status, Props } from './auth.enum';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AuthService {
   isLoggedSubject = new BehaviorSubject<boolean>(this.authStatus);

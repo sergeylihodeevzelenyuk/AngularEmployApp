@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { Subscription } from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import { AuthService } from "../../auth/auth.service";
-import { environment } from "src/environments/environment";
+import { AuthService } from '../../auth/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: "app-header",
-  templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.scss"],
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   isLogged!: boolean;
@@ -16,11 +16,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedSub!: Subscription;
   userNameSub!: Subscription;
 
-  HOME = "/" + environment.PATH.ROOT;
-  EMPLOYEES = "/" + environment.PATH.EMPLOYEES.ROOT;
-  EDIT = "/" + environment.PATH.EMPLOYEES.EDIT_FULL_PASS;
-  SING_IN = "/" + environment.PATH.AUTH.SING_IN;
-  SING_UP = "/" + environment.PATH.AUTH.SING_UP;
+  HOME = `/${environment.PATH.ROOT}`;
+  EMPLOYEES = `/${environment.PATH.EMPLOYEES.ROOT}`;
+  EDIT = `/${environment.PATH.EMPLOYEES.EDIT_FULL_PASS}`;
+  SING_IN = `/${environment.PATH.AUTH.SING_IN}`;
+  SING_UP = `/${environment.PATH.AUTH.SING_UP}`;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
   }
 
-  onHomeClick() {
+  onHomeClick(): void {
     this.router.navigate([this.HOME]);
   }
 

@@ -1,9 +1,9 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform } from '@angular/core';
 
-import { Employee } from "./employee.model";
+import { Employee } from './employee.model';
 
 @Pipe({
-  name: "sort",
+  name: 'sort',
 })
 export class SortPipe implements PipeTransform {
   transform(value: Employee[], sorted: boolean): Employee[] {

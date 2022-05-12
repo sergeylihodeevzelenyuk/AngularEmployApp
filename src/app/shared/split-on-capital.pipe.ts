@@ -1,10 +1,10 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: "splitOnCapital",
+  name: 'splitOnCapital',
 })
 export class SplitOnCapitalPipe implements PipeTransform {
   transform(value: string): string {
-    return value.split(/(?=[A-Z])/).join(" ");
+    return value.split(/(?=[A-Z])/).join(' ');
   }
 }

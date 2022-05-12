@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Employee } from "../employee.model";
-import { EmployeesService } from "../employees.service";
-import { environment } from "src/environments/environment";
-import { Error } from "src/app/shared/error-notification/error.model";
+import { Employee } from '../employee.model';
+import { EmployeesService } from '../employees.service';
+import { environment } from 'src/environments/environment';
+import { Error } from 'src/app/shared/error-notification/error.model';
 
 @Component({
-  selector: "app-employee",
-  templateUrl: "./employee.component.html",
-  styleUrls: ["./employee.component.scss"],
+  selector: 'app-employee',
+  templateUrl: './employee.component.html',
+  styleUrls: ['./employee.component.scss'],
 })
 export class EmployeeComponent implements OnInit {
   id!: string;
@@ -30,7 +30,7 @@ export class EmployeeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.queryParams["id"];
+    this.id = this.route.snapshot.queryParams['id'];
 
     this.employeesService.fetch(this.id).subscribe({
       next: (fetchedEmployee) => {
