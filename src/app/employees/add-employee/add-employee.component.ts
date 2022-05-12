@@ -118,7 +118,7 @@ export class AddEmployeeComponent implements OnInit {
     this.employeesService.edit(employee, this.id).subscribe({
       next: () => {
         this.isFetching = false;
-        this.router.navigate([this.ROUTE.EMPLOYEES]);
+        this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
       },
       error: (error) => {
         this.isFetching = false;
@@ -129,7 +129,7 @@ export class AddEmployeeComponent implements OnInit {
 
   onCancellClick(): void {
     if (this.mode === Mode.add) {
-      this.router.navigate([this.ROUTE.EMPLOYEES]);
+      this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
 
       return;
     }

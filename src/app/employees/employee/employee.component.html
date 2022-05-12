@@ -35,7 +35,7 @@
               trackBy: additionalTrackBy
             "
           >
-            <mat-expansion-panel-header *ngIf="additional">
+            <mat-expansion-panel-header *ngIf="additional.value">
               <mat-panel-title>
                 {{ additional.key | splitOnCapital | titlecase }}
               </mat-panel-title>
