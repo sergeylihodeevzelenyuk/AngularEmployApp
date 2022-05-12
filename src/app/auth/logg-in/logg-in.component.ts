@@ -31,7 +31,7 @@ export class LoggInComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const email = this.loggInForm?.get("email")!.value;
 
     this.authService.loggIn(email);

@@ -19,7 +19,7 @@ export class EmployeeCardComponent implements OnInit {
       : null;
   }
 
-  onCardClick() {
+  onCardClick(): void {
     this.onGetId.emit(this.employee.id);
   }
 }

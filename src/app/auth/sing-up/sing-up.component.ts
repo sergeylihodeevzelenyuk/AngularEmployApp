@@ -34,7 +34,7 @@ export class SingUpComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const user = new User(
       this.singUpForm.value.email,
       this.singUpForm.value.password

@@ -13,7 +13,7 @@ import { environment } from "src/environments/environment";
 import { ConfirmDeletingComponent } from "./employee/confirm-deleting/confirm-deleting.component";
 import { SortPipe } from "./sort.pipe";
 
-const PATH = environment.PATH;
+const ROUT = environment.PATH;
 
 @NgModule({
   declarations: [
@@ -38,11 +38,11 @@ const PATH = environment.PATH;
             component: EmployeesComponent,
           },
           {
-            path: PATH.EMPLOYEES.EMPLOYEE,
+            path: ROUT.EMPLOYEES.EMPLOYEE,
             component: EmployeeComponent,
           },
           {
-            path: PATH.EMPLOYEES.EDIT,
+            path: ROUT.EMPLOYEES.EDIT,
             component: AddEmployeeComponent,
           },
         ],

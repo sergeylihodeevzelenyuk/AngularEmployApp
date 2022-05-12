@@ -45,21 +45,21 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  onEditClick() {
+  onEditClick(): void {
     this.router.navigate([this.ROUTE.EMPLOYEES.EDIT_FULL_PASS], {
       queryParams: { id: this.id },
     });
   }
 
-  onDeleteClick() {
+  onDeleteClick(): void {
     this.isConfirmingDeleting = true;
   }
 
-  onOmitDeleting() {
+  onOmitDeleting(): void {
     this.isConfirmingDeleting = false;
   }
 
-  onConfirmDeleting() {
+  onConfirmDeleting(): void {
     this.isConfirmingDeleting = false;
     this.isDeletingProcess = true;
 
@@ -75,7 +75,7 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  onErrorMessageClose() {
+  onErrorMessageClose(): void {
     this.error = null;
     this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
   }

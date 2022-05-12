@@ -39,18 +39,18 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  onEmployeeClick(id: any) {
+  onEmployeeClick(id: any): void {
     this.router.navigate([this.ROUT.EMPLOYEES.EMPLOYEE], {
       relativeTo: this.route,
       queryParams: { id },
     });
   }
 
-  onSortClick() {
+  onSortClick(): void {
     this.sortedAlphabetically = !this.sortedAlphabetically;
   }
 
-  onErrorMsgClose() {
+  onErrorMsgClose(): void {
     this.error = null;
     this.router.navigate([this.ROUT.HOME]);
   }

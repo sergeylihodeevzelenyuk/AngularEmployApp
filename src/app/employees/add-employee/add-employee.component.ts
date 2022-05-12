@@ -23,7 +23,6 @@ export class AddEmployeeComponent implements OnInit {
   notification!: string;
   NOTIFICATION = environment.NOTIFICATION;
   ROUTE = environment.PATH;
-  MODE = Mode;
 
   constructor(
     private employeesService: EmployeesService,
@@ -34,9 +33,9 @@ export class AddEmployeeComponent implements OnInit {
   ngOnInit(): void {
     if (this.idFromQueryParams) {
       this.isFetching = true;
-      this.setNotification();
       this.id = this.idFromQueryParams;
-      this.mode = this.MODE.edit;
+      this.mode = Mode.edit;
+      this.setNotification();
 
       this.employeesService.fetch(this.id).subscribe({
         next: (fetchedEmployee) => {
@@ -54,12 +53,12 @@ export class AddEmployeeComponent implements OnInit {
       return;
     }
 
-    this.mode = this.MODE.add;
+    this.mode = Mode.add;
     this.setEditForm();
     this.setNotification();
   }
 
-  setEditForm() {
+  setEditForm(): void {
     this.editForm = new FormGroup({
       name: new FormControl(null || this.employee?.name, [Validators.required]),
       imgPath: new FormControl(null || this.employee?.imgPath),
@@ -85,7 +84,7 @@ export class AddEmployeeComponent implements OnInit {
     });
   }
 
-  setNotification() {
+  setNotification(): void {
     if (this.isFetching) {
       this.notification = this.NOTIFICATION.FETCH;
 
@@ -93,15 +92,13 @@ export class AddEmployeeComponent implements OnInit {
     }
 
     this.notification =
-      this.mode === this.MODE.add
-        ? this.NOTIFICATION.ADD
-        : this.NOTIFICATION.UPDATE;
+      this.mode === Mode.add ? this.NOTIFICATION.ADD : this.NOTIFICATION.UPDATE;
   }
 
-  onAddFormSubmit() {
+  onAddFormSubmit(): void {
     const employee = this.newEmployee;
 
-    if (this.mode === this.MODE.add) {
+    if (this.mode === Mode.add) {
       this.isFetching = true;
       this.employeesService.add(employee).subscribe({
         next: () => {
@@ -130,8 +127,8 @@ export class AddEmployeeComponent implements OnInit {
     });
   }
 
-  onCancellClick() {
-    if (this.mode === this.MODE.add) {
+  onCancellClick(): void {
+    if (this.mode === Mode.add) {
       this.router.navigate([this.ROUTE.EMPLOYEES]);
 
       return;
@@ -142,7 +139,7 @@ export class AddEmployeeComponent implements OnInit {
     });
   }
 
-  onErrorMsgClose() {
+  onErrorMsgClose(): void {
     this.error = null;
   }
 
@@ -150,7 +147,7 @@ export class AddEmployeeComponent implements OnInit {
     return this.route.snapshot.queryParams["id"];
   }
 
-  private get newEmployee() {
+  private get newEmployee(): Employee {
     return new Employee(
       this.editForm.value.name,
       this.editForm.value.position,
@@ -162,7 +159,7 @@ export class AddEmployeeComponent implements OnInit {
     );
   }
 
-  private get additional() {
+  private get additional(): Additional {
     return new Additional(
       this.editForm.value.additional.team
         ? this.editForm.value.additional.team
