@@ -30,7 +30,7 @@
           <mat-expansion-panel
             (opened)="panelOpenState = true"
             (closed)="panelOpenState = false"
-            *ngFor="let item of additionalArr"
+            *ngFor="let item of additionalArr; trackBy: additionalTrackBy"
           >
             <mat-expansion-panel-header *ngIf="item[1]">
               <mat-panel-title>

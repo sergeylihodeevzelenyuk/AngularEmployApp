@@ -2,16 +2,16 @@
   <div class="employees_header">
     <menu class="employees_menu menu">
       <h2 class="employees_heading">
-        Total Employees: {{ employees.length ? employees.length : "" }}
+        Total Employees: {{ employees.length ? employees.length : '' }}
       </h2>
       <button mat-button [routerLink]="ROUT.EMPLOYEES.EDIT">
         <mat-icon>person_add</mat-icon>
       </button>
       <div class="menu_options">
         <button mat-button class="menu_sort" (click)="onSortClick()">
-          Sort {{ sortedAlphabetically ? "A" : "Z" }}
+          Sort {{ sortedAlphabetically ? 'A' : 'Z' }}
           <mat-icon>trending_flat</mat-icon>
-          {{ sortedAlphabetically ? "Z" : "A" }}
+          {{ sortedAlphabetically ? 'Z' : 'A' }}
         </button>
         <div class="menu_view">
           <button mat-button>
@@ -30,7 +30,10 @@
   <div class="employees_content">
     <div
       class="employees_item-wrapper"
-      *ngFor="let employee of employees | sort: sortedAlphabetically"
+      *ngFor="
+        let employee of employees | sort: sortedAlphabetically;
+        trackBy: employeeTrackBy
+      "
     >
       <app-employee-card
         [employee]="employee"

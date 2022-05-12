@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Employee } from '../employee.model';
+import { Additional, Employee } from '../employee.model';
 import { EmployeesService } from '../employees.service';
 import { environment } from 'src/environments/environment';
 import { Error } from 'src/app/shared/error-notification/error.model';
@@ -78,5 +78,10 @@ export class EmployeeComponent implements OnInit {
   onErrorMessageClose(): void {
     this.error = null;
     this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
+  }
+
+  additionalTrackBy(index: number, prop: any): string {
+    console.log(index, prop);
+    return prop[0];
   }
 }

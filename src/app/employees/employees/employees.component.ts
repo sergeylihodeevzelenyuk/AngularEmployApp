@@ -54,4 +54,8 @@ export class EmployeesComponent implements OnInit {
     this.error = null;
     this.router.navigate([this.ROUT.HOME]);
   }
+
+  employeeTrackBy(index: number, employee: Employee): string {
+    return employee.id!;
+  }
 }
