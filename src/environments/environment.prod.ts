@@ -24,6 +24,7 @@ export const environment = {
   },
 
   ERROR_MSG: {
+    TITLE: "Error code: ",
     HTTP_FAIL: "Failure Response",
   },
 

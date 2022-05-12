@@ -26,7 +26,10 @@ export class HtttErrorInterceptorService implements HttpInterceptor {
         if (error.error instanceof ErrorEvent) {
           errorMsg = new Error(this.ERROR_MSG.HTTP_FAIL, error.error.message);
         } else {
-          errorMsg = new Error(`Error Code: ${error.status}`, error.message);
+          errorMsg = new Error(
+            `${this.ERROR_MSG.TITLE}${error.status}`,
+            error.message
+          );
         }
 
         return throwError(errorMsg);
