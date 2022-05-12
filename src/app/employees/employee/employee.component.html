@@ -5,7 +5,6 @@
   <div *ngIf="!isFetching && !error">
     <section class="employee_content">
       <div class="employee_main">
-        <span class="employee_data">{{ employee.date }}</span>
         <div class="employee_photo">
           <span class="material-icons" *ngIf="!employee.imgPath">
             account_circle
@@ -23,40 +22,22 @@
         <mat-accordion>
           <mat-expansion-panel hideToggle>
             <mat-expansion-panel-header>
-              <mat-panel-title> Additional information </mat-panel-title>
+              <mat-panel-title> Additional Information </mat-panel-title>
               <mat-panel-description> </mat-panel-description>
             </mat-expansion-panel-header>
-            <p>All you need to now about {{ employee.name }}</p>
+            <p>All you need to now about {{ employee.name | titlecase }}</p>
           </mat-expansion-panel>
           <mat-expansion-panel
             (opened)="panelOpenState = true"
             (closed)="panelOpenState = false"
+            *ngFor="let item of additionalArr"
           >
-            <mat-expansion-panel-header>
-              <mat-panel-title> Birthday </mat-panel-title>
-              <mat-panel-description> Birthday </mat-panel-description>
+            <mat-expansion-panel-header *ngIf="item[1]">
+              <mat-panel-title>
+                {{ item[0] | splitOnCapital | titlecase }}
+              </mat-panel-title>
             </mat-expansion-panel-header>
-            <p>Birthday</p>
-          </mat-expansion-panel>
-          <mat-expansion-panel
-            (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false"
-          >
-            <mat-expansion-panel-header>
-              <mat-panel-title> Hobbies </mat-panel-title>
-              <mat-panel-description> Hobbies </mat-panel-description>
-            </mat-expansion-panel-header>
-            <p>Hobbies</p>
-          </mat-expansion-panel>
-          <mat-expansion-panel
-            (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false"
-          >
-            <mat-expansion-panel-header>
-              <mat-panel-title> Family </mat-panel-title>
-              <mat-panel-description> Family </mat-panel-description>
-            </mat-expansion-panel-header>
-            <p>Family</p>
+            <p>{{ item[1] | stringToReadebleDate }}</p>
           </mat-expansion-panel>
         </mat-accordion>
       </div>

@@ -9,10 +9,15 @@ import { Employee } from "../../employee.model";
 export class EmployeeCardComponent implements OnInit {
   @Input() employee!: Employee;
   @Output() onGetId = new EventEmitter<string>();
+  start!: Date | null;
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.start = this.employee.additional?.startDate
+      ? new Date(this.employee.additional?.startDate)
+      : null;
+  }
 
   onCardClick() {
     this.onGetId.emit(this.employee.id);

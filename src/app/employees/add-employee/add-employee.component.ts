@@ -2,10 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { Employee } from "../employee.model";
+import { Employee, Additional } from "../employee.model";
 import { EmployeesService } from "../employees.service";
 import { environment } from "src/environments/environment";
-import { Error } from "src/app/shared-components/error-notification/error.model";
+import { Error } from "src/app/shared/error-notification/error.model";
 import { Mode } from "./mode.enum";
 
 @Component({
@@ -73,6 +73,15 @@ export class AddEmployeeComponent implements OnInit {
       phone: new FormControl(null || this.employee?.phone, [
         Validators.required,
       ]),
+      additional: new FormGroup({
+        team: new FormControl(null || this.employee?.additional?.team),
+        birthday: new FormControl(null || this.employee?.additional?.birthday),
+        startDate: new FormControl(
+          null || this.employee?.additional?.startDate
+        ),
+        family: new FormControl(null || this.employee?.additional?.family),
+        hobbies: new FormControl(null || this.employee?.additional?.hobbies),
+      }),
     });
   }
 
@@ -90,7 +99,7 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   onAddFormSubmit() {
-    const employee = this.getNewEmployee();
+    const employee = this.newEmployee;
 
     if (this.mode === this.MODE.add) {
       this.isFetching = true;
@@ -141,14 +150,35 @@ export class AddEmployeeComponent implements OnInit {
     return this.route.snapshot.queryParams["id"];
   }
 
-  private getNewEmployee() {
+  private get newEmployee() {
     return new Employee(
       this.editForm.value.name,
       this.editForm.value.position,
       this.editForm.value.email,
       this.editForm.value.phone,
-      this.editForm.value.data ? this.editForm.value.data : "",
-      this.editForm.value.imgPath ? this.editForm.value.imgPath : ""
+      this.editForm.value.imgPath ? this.editForm.value.imgPath : "",
+      this.id ? this.id : "",
+      this.additional
+    );
+  }
+
+  private get additional() {
+    return new Additional(
+      this.editForm.value.additional.team
+        ? this.editForm.value.additional.team
+        : "",
+      this.editForm.value.additional.birthday
+        ? this.editForm.value.additional.birthday
+        : "",
+      this.editForm.value.additional.startDate
+        ? this.editForm.value.additional.startDate
+        : "",
+      this.editForm.value.additional.family
+        ? this.editForm.value.additional.family
+        : "",
+      this.editForm.value.additional.hobbies
+        ? this.editForm.value.additional.hobbies
+        : ""
     );
   }
 }

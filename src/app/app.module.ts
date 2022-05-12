@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { AppComponent } from "./app.component";
 import { AuthModule } from "./auth/auth.module";
-import { SharedModule } from "./shared-components/shared.module";
+import { SharedModule } from "./shared/shared.module";
 import { CoreModule } from "./core/core.module";
 
 @NgModule({

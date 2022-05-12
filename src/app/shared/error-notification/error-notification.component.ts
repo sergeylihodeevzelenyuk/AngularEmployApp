@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 
-import { Error } from "src/app/shared-components/error-notification/error.model";
+import { Error } from "src/app/shared/error-notification/error.model";
 
 @Component({
   selector: "app-error-notification",

@@ -62,36 +62,85 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="add-empl_form-additional">
+      <div class="add-empl_form-additional" formGroupName="additional">
         <h3>Additional information</h3>
         <div class="add-empl_form-control">
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Team</mat-label>
-            <input type="text" matInput placeholder="Guardians of the Galaxy" />
+            <input
+              type="text"
+              matInput
+              placeholder="Guardians of the Galaxy"
+              formControlName="team"
+            />
           </mat-form-field>
         </div>
         <div class="add-empl_form-control">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Birthday</mat-label>
-            <input type="date" matInput />
-          </mat-form-field>
-        </div>
-        <div class="add-empl_form-control">
-          <mat-form-field class="example-full-width" appearance="fill">
+          <mat-form-field appearance="fill" class="example-form-field">
             <mat-label>Start date</mat-label>
-            <input type="date" matInput />
+            <input
+              matInput
+              [matDatepicker]="datepickerStart"
+              placeholder="MM/DD/YYYY"
+              formControlName="startDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepickerStart"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepickerStart>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="add-empl_form-control">
+          <mat-form-field appearance="fill" class="example-form-field">
+            <mat-label>Birthday</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datepickerBirthday"
+              placeholder="MM/DD/YYYY"
+              formControlName="birthday"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepickerBirthday"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepickerBirthday>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
           </mat-form-field>
         </div>
         <div class="add-empl_form-control">
           <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Hobbyes</mat-label>
-            <input type="text" matInput placeholder="Ex. Ciclings" />
+            <mat-label>Hobbies</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder="Ex. Ciclings"
+              formControlName="hobbies"
+            />
           </mat-form-field>
         </div>
         <div class="add-empl_form-control">
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Family</mat-label>
-            <input type="text" matInput placeholder="Ex. cat Alicia" />
+            <input
+              type="text"
+              matInput
+              placeholder="Ex. cat Alicia"
+              formControlName="family"
+            />
           </mat-form-field>
         </div>
       </div>

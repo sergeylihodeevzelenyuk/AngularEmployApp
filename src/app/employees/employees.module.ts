@@ -7,7 +7,7 @@ import { EmployeeCardComponent } from "./employees/employee-card/employee-card.c
 import { AddEmployeeComponent } from "./add-employee/add-employee.component";
 import { EmployeeComponent } from "./employee/employee.component";
 import { EmployeesPageComponent } from "./employees-page/employees-page.component";
-import { SharedModule } from "../shared-components/shared.module";
+import { SharedModule } from "../shared/shared.module";
 import { AuthGuard } from "../auth/auth.guard";
 import { environment } from "src/environments/environment";
 import { ConfirmDeletingComponent } from "./employee/confirm-deleting/confirm-deleting.component";

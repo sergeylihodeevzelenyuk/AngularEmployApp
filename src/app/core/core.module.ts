@@ -16,5 +16,6 @@ import { LocalstorageService } from "./localstorage.service";
       multi: true,
     },
   ],
+  declarations: [],
 })
 export class CoreModule {}

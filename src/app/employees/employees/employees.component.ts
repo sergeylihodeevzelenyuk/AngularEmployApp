@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Employee } from "../employee.model";
 import { EmployeesService } from "../employees.service";
 import { environment } from "src/environments/environment";
-import { Error } from "src/app/shared-components/error-notification/error.model";
+import { Error } from "src/app/shared/error-notification/error.model";
 
 @Component({
   selector: "app-employees",

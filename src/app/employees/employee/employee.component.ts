@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 import { Employee } from "../employee.model";
 import { EmployeesService } from "../employees.service";
 import { environment } from "src/environments/environment";
-import { Error } from "src/app/shared-components/error-notification/error.model";
+import { Error } from "src/app/shared/error-notification/error.model";
 
 @Component({
   selector: "app-employee",
@@ -14,6 +14,7 @@ import { Error } from "src/app/shared-components/error-notification/error.model"
 export class EmployeeComponent implements OnInit {
   id!: string;
   employee!: Employee;
+  additionalArr!: [string, any][];
   isFetching = true;
   isDeletingProcess = false;
   isConfirmingDeleting = false;
@@ -34,6 +35,7 @@ export class EmployeeComponent implements OnInit {
     this.employeesService.fetch(this.id).subscribe({
       next: (fetchedEmployee) => {
         this.employee = fetchedEmployee;
+        this.additionalArr = Object.entries(this.employee.additional!);
         this.isFetching = false;
       },
       error: (error) => {
