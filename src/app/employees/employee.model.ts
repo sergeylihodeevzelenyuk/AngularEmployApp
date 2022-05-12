@@ -4,18 +4,18 @@ export class Employee {
     public position: string,
     public email: string,
     public phone: number | string,
-    public imgPath?: string,
-    public id?: string,
-    public additional?: Additional
+    public imgPath: string,
+    public id: string,
+    public additional: Additional
   ) {}
 }
 
 export class Additional {
   constructor(
-    public team?: string,
-    public birthday?: string,
-    public startDate?: string,
-    public family?: string,
-    public hobbies?: string
+    public team: string,
+    public birthday: string,
+    public startDate: string,
+    public family: string,
+    public hobbies: string
   ) {}
 }

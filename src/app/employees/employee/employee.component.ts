@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Additional, Employee } from '../employee.model';
+import { Employee } from '../employee.model';
 import { EmployeesService } from '../employees.service';
 import { environment } from 'src/environments/environment';
 import { Error } from 'src/app/shared/error-notification/error.model';
@@ -14,7 +14,6 @@ import { Error } from 'src/app/shared/error-notification/error.model';
 export class EmployeeComponent implements OnInit {
   id!: string;
   employee!: Employee;
-  additionalArr!: [string, any][];
   isFetching = true;
   isDeletingProcess = false;
   isConfirmingDeleting = false;
@@ -35,7 +34,6 @@ export class EmployeeComponent implements OnInit {
     this.employeesService.fetch(this.id).subscribe({
       next: (fetchedEmployee) => {
         this.employee = fetchedEmployee;
-        this.additionalArr = Object.entries(this.employee.additional!);
         this.isFetching = false;
       },
       error: (error) => {
@@ -80,8 +78,10 @@ export class EmployeeComponent implements OnInit {
     this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
   }
 
-  additionalTrackBy(index: number, prop: any): string {
-    console.log(index, prop);
-    return prop[0];
+  additionalTrackBy(
+    index: number,
+    prop: { key: string; value: string }
+  ): string {
+    return prop.key;
   }
 }
