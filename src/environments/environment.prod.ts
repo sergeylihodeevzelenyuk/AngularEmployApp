@@ -20,7 +20,9 @@ export const environment = {
   },
 
   URL: {
-    EMPLOYEE: 'https://employees-aa53b-default-rtdb.firebaseio.com/employees',
+    EMPLOYEE: new URL(
+      'https://employees-aa53b-default-rtdb.firebaseio.com/employees'
+    ),
   },
 
   ERROR_MSG: {

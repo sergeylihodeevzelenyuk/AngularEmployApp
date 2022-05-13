@@ -19,7 +19,7 @@ export class EmployeesComponent implements OnInit {
   ROUT = environment.PATH;
 
   constructor(
-    private employeesService: EmployeesService,
+    public employeesService: EmployeesService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
