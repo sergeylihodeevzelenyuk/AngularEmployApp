@@ -7,7 +7,6 @@ $error_red_font: rgba(199, 14, 14, 0.761);
 @mixin spinner {
   display: flex;
   justify-content: center;
-  padding: 15px 0;
 }
 
 @mixin account-img-placeholder {

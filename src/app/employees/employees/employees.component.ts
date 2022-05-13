@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, Observable, take, throwError } from 'rxjs';
 
 import { Employee } from '../employee.model';
 import { EmployeesService } from '../employees.service';
@@ -12,11 +13,10 @@ import { Error } from 'src/app/shared/error-notification/error.model';
   styleUrls: ['./employees.component.scss'],
 })
 export class EmployeesComponent implements OnInit {
-  employees: Employee[] = [];
-  isFetching = false;
-  sortedAlphabetically = true;
+  employees$!: Observable<Employee[]>;
   error: Error | null = null;
-  ROUT = environment.PATH;
+  sortedAlphabetically = true;
+  ROUTE = environment.PATH;
 
   constructor(
     public employeesService: EmployeesService,
@@ -25,22 +25,17 @@ export class EmployeesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isFetching = true;
+    this.employees$ = this.employeesService.fetchAll().pipe(
+      catchError((err) => {
+        this.error = err;
 
-    this.employeesService.fetchAll().subscribe({
-      next: (fetchetEmployees) => {
-        this.employees = [...fetchetEmployees];
-        this.isFetching = false;
-      },
-      error: (error) => {
-        this.isFetching = false;
-        this.error = error;
-      },
-    });
+        return throwError(() => err);
+      })
+    );
   }
 
   onEmployeeClick(id: any): void {
-    this.router.navigate([this.ROUT.EMPLOYEES.EMPLOYEE], {
+    this.router.navigate([this.ROUTE.EMPLOYEES.EMPLOYEE], {
       relativeTo: this.route,
       queryParams: { id },
     });
@@ -52,10 +47,6 @@ export class EmployeesComponent implements OnInit {
 
   onErrorMsgClose(): void {
     this.error = null;
-    this.router.navigate([this.ROUT.HOME]);
-  }
-
-  employeeTrackBy(index: number, employee: Employee): string {
-    return employee.id!;
+    this.router.navigate([this.ROUTE.HOME]);
   }
 }

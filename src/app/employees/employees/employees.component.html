@@ -2,9 +2,12 @@
   <div class="employees_header">
     <menu class="employees_menu menu">
       <h2 class="employees_heading">
-        Total Employees: {{ employees.length ? employees.length : '' }}
+        Total Employees:
+        <span *ngIf="employees$ | async as employees; else loading"
+          >{{ employees.length }}
+        </span>
       </h2>
-      <button mat-button [routerLink]="ROUT.EMPLOYEES.EDIT">
+      <button mat-button [routerLink]="ROUTE.EMPLOYEES.EDIT">
         <mat-icon>person_add</mat-icon>
       </button>
       <div class="menu_options">
@@ -24,16 +27,13 @@
       </div>
     </menu>
   </div>
-  <div class="employees_spinner" *ngIf="isFetching">
-    <mat-spinner [diameter]="35"></mat-spinner>
-  </div>
-  <div class="employees_content">
+  <div
+    class="employees_content"
+    *ngIf="employees$ | async as employees; else loading"
+  >
     <div
       class="employees_item-wrapper"
-      *ngFor="
-        let employee of employees | sort: sortedAlphabetically;
-        trackBy: employeeTrackBy
-      "
+      *ngFor="let employee of employees | sort: sortedAlphabetically"
     >
       <app-employee-card
         [employee]="employee"
@@ -47,3 +47,8 @@
   [error]="error"
   (onClose)="onErrorMsgClose()"
 ></app-error-notification>
+<ng-template #loading>
+  <div class="employees_spinner" *ngIf="!error">
+    <mat-spinner [diameter]="20"></mat-spinner>
+  </div>
+</ng-template>

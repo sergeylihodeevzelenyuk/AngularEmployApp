@@ -44,10 +44,7 @@ export class AddEmployeeComponent implements OnInit {
           this.setEditForm();
           this.setNotification();
         },
-        error: (error) => {
-          this.isFetching = false;
-          this.error = error;
-        },
+        error: this.errorHandler.bind(this),
       });
 
       return;
@@ -85,14 +82,11 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   setNotification(): void {
-    if (this.isFetching) {
-      this.notification = this.NOTIFICATION.FETCH;
-
-      return;
-    }
-
-    this.notification =
-      this.mode === Mode.add ? this.NOTIFICATION.ADD : this.NOTIFICATION.UPDATE;
+    this.notification = this.isFetching
+      ? this.NOTIFICATION.FETCH
+      : this.mode === Mode.add
+      ? this.NOTIFICATION.ADD
+      : this.NOTIFICATION.UPDATE;
   }
 
   onAddFormSubmit(): void {
@@ -101,14 +95,8 @@ export class AddEmployeeComponent implements OnInit {
     if (this.mode === Mode.add) {
       this.isFetching = true;
       this.employeesService.add(employee).subscribe({
-        next: () => {
-          this.isFetching = false;
-          this.router.navigate([this.ROUTE.EMPLOYEES]);
-        },
-        error: (error) => {
-          this.isFetching = false;
-          this.error = error;
-        },
+        next: this.responceHandler.bind(this),
+        error: this.errorHandler.bind(this),
       });
 
       return;
@@ -116,14 +104,8 @@ export class AddEmployeeComponent implements OnInit {
 
     this.isFetching = true;
     this.employeesService.edit(employee, this.id).subscribe({
-      next: () => {
-        this.isFetching = false;
-        this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
-      },
-      error: (error) => {
-        this.isFetching = false;
-        this.error = error;
-      },
+      next: this.responceHandler.bind(this),
+      error: this.errorHandler.bind(this),
     });
   }
 
@@ -143,6 +125,20 @@ export class AddEmployeeComponent implements OnInit {
     this.error = null;
   }
 
+  private responceHandler(res: { [key: string]: string } | Employee): void {
+    this.isFetching = false;
+    const id = Object.keys(res).length === 1 ? res['name'] : this.id;
+
+    this.router.navigate([this.ROUTE.EMPLOYEES.EMPLOYEE_FULL_PASS], {
+      queryParams: { id },
+    });
+  }
+
+  private errorHandler(error: Error): void {
+    this.isFetching = false;
+    this.error = error;
+  }
+
   private get idFromQueryParams(): string | undefined {
     return this.route.snapshot.queryParams['id'];
   }
@@ -153,29 +149,19 @@ export class AddEmployeeComponent implements OnInit {
       this.editForm.value.position,
       this.editForm.value.email,
       this.editForm.value.phone,
-      this.editForm.value.imgPath ? this.editForm.value.imgPath : '',
-      this.id ? this.id : '',
+      this.editForm.value.imgPath || '',
+      this.id || '',
       this.additional
     );
   }
 
   private get additional(): Additional {
     return new Additional(
-      this.editForm.value.additional.team
-        ? this.editForm.value.additional.team
-        : '',
-      this.editForm.value.additional.birthday
-        ? this.editForm.value.additional.birthday
-        : '',
-      this.editForm.value.additional.startDate
-        ? this.editForm.value.additional.startDate
-        : '',
-      this.editForm.value.additional.family
-        ? this.editForm.value.additional.family
-        : '',
-      this.editForm.value.additional.hobbies
-        ? this.editForm.value.additional.hobbies
-        : ''
+      this.editForm.value.additional.team || '',
+      this.editForm.value.additional.birthday || '',
+      this.editForm.value.additional.startDate || '',
+      this.editForm.value.additional.family || '',
+      this.editForm.value.additional.hobbies || ''
     );
   }
 }

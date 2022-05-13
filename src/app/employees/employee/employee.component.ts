@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, Observable, throwError } from 'rxjs';
 
 import { Employee } from '../employee.model';
 import { EmployeesService } from '../employees.service';
@@ -13,8 +14,7 @@ import { Error } from 'src/app/shared/error-notification/error.model';
 })
 export class EmployeeComponent implements OnInit {
   id!: string;
-  employee!: Employee;
-  isFetching = true;
+  employee$!: Observable<Employee>;
   isDeletingProcess = false;
   isConfirmingDeleting = false;
   error: Error | null = null;
@@ -31,16 +31,9 @@ export class EmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.queryParams['id'];
 
-    this.employeesService.fetch(this.id).subscribe({
-      next: (fetchedEmployee) => {
-        this.employee = fetchedEmployee;
-        this.isFetching = false;
-      },
-      error: (error) => {
-        this.isFetching = false;
-        this.error = error;
-      },
-    });
+    this.employee$ = this.employeesService
+      .fetch(this.id)
+      .pipe(catchError(this.handleError.bind(this)));
   }
 
   onEditClick(): void {
@@ -78,10 +71,8 @@ export class EmployeeComponent implements OnInit {
     this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
   }
 
-  additionalTrackBy(
-    index: number,
-    prop: { key: string; value: string }
-  ): string {
-    return prop.key;
+  private handleError(error: Error): Observable<never> {
+    this.error = error;
+    return throwError(() => error);
   }
 }
