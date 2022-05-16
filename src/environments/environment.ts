@@ -38,4 +38,8 @@ export const environment = {
     ADD: 'Adding new employee',
     UPDATE: 'Updating employee',
   },
+
+  SERVERS_NAME: {
+    FIREBASE: 'firebase',
+  },
 };

@@ -10,6 +10,6 @@ import { BaseService } from '../core/base.service';
 })
 export class EmployeesService extends BaseService<Employee> {
   constructor(http: HttpClient) {
-    super(http, environment.URL.EMPLOYEE);
+    super(http, environment.URL.EMPLOYEE, environment.SERVERS_NAME.FIREBASE);
   }
 }

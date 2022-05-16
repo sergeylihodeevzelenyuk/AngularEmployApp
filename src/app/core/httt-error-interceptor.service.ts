@@ -32,7 +32,7 @@ export class HtttErrorInterceptorService implements HttpInterceptor {
           );
         }
 
-        return throwError(errorMsg);
+        return throwError(() => errorMsg);
       })
     );
   }
