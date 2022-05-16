@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { HttpResponseDataModifierService } from './http-response-data-modifier.service';
@@ -9,35 +9,37 @@ export abstract class BaseService<
   T
 > extends HttpResponseDataModifierService<T> {
   constructor(
-    private http: HttpClient,
-    private url: URL,
-    private serverName: string
+    protected http: HttpClient,
+    protected url: URL,
+    protected serverName: string
   ) {
     super();
   }
 
   public fetchAll(): Observable<T[]> {
     let url = this.url.href;
-    let cb = (value: T[]) => value;
 
     if ((this.serverName = environment.SERVERS_NAME.FIREBASE)) {
       url = `${this.url.href}.json`;
-      cb = this.firebaseDataModifier;
+
+      return this.http.get<T[]>(url).pipe(map(this.firebaseDataModifier));
     }
 
-    return this.http.get<T[]>(url).pipe(map(cb));
+    return this.http.get<T[]>(url);
   }
 
   public fetch(id: string): Observable<T> {
     let url = this.url.href;
-    let cb = (value: T) => value;
 
     if ((this.serverName = environment.SERVERS_NAME.FIREBASE)) {
       url = `${this.url.href}/${id}.json`;
-      cb = (fetchedItem) => ({ ...fetchedItem, id });
+
+      return this.http
+        .get<T>(url)
+        .pipe(map((fetchedItem) => ({ ...fetchedItem, id })));
     }
 
-    return this.http.get<T>(url).pipe(map(cb));
+    return this.http.get<T>(url);
   }
 
   public add(item: T): Observable<{ [key: string]: string }> {
