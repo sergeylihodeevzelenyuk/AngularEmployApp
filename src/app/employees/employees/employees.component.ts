@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, Observable, take, throwError } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 
 import { Employee } from '../employee.model';
 import { EmployeesService } from '../employees.service';
@@ -25,13 +25,9 @@ export class EmployeesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.employees$ = this.employeesService.fetchAll().pipe(
-      catchError((err) => {
-        this.error = err;
-
-        return throwError(() => err);
-      })
-    );
+    this.employees$ = this.employeesService
+      .fetchAll()
+      .pipe(catchError(this.handleError.bind(this)));
   }
 
   onEmployeeClick(id: any): void {
@@ -48,5 +44,11 @@ export class EmployeesComponent implements OnInit {
   onErrorMsgClose(): void {
     this.error = null;
     this.router.navigate([this.ROUTE.HOME]);
+  }
+
+  handleError(error: Error) {
+    this.error = error;
+
+    return throwError(() => error);
   }
 }
