@@ -15,7 +15,7 @@ export class FirebaseDataModifierService<T> implements DataModifier {
     return modifiedItems;
   }
 
-  public itemDataModifier(fetchedItem: any, id: string): T {
-    return { ...fetchedItem, id };
+  public itemDataModifier(data: any, id: string): T {
+    return { ...data, id };
   }
 }

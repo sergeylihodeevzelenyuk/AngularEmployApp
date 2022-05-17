@@ -1,4 +1,4 @@
 export interface DataModifier {
   allDataModifier: (data: any) => any;
-  itemDataModifier: (fetchedItem: any, id: string) => any;
+  itemDataModifier: (data: any, id: string) => any;
 }

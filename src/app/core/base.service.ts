@@ -3,9 +3,9 @@ import { Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { environment } from 'src/environments/environment';
-import { DataModifier } from './http-responce-handle-services/data-modifier.interface';
-import { DATA_MODIFIERS } from './http-responce-handle-services/data-modifier.token';
+import { DataModifier } from './http-data-modifier-services/data-modifier.interface';
+import { DATA_MODIFIERS } from './http-data-modifier-services/data-modifier.token';
+import { ServersNames } from './http-data-modifier-services/servers.enum';
 
 export class BaseService<T> {
   allDataModifier!: (data: any) => any;
@@ -16,7 +16,7 @@ export class BaseService<T> {
     @Inject(DATA_MODIFIERS)
     protected dataModifires: ReadonlyArray<DataModifier>,
     protected url: URL,
-    protected serverName: string
+    protected serverName: number
   ) {
     this.setInitialSetup();
   }
@@ -43,17 +43,21 @@ export class BaseService<T> {
     return this.http.delete<void>(`${this.url.href}/${id}`);
   }
 
-  private get isFirebaseServer(): boolean {
-    return this.serverName === environment.SERVERS_NAME.FIREBASE;
+  private isServer(serverName: number): boolean {
+    return this.serverName === serverName;
   }
 
   private setInitialSetup(): void {
-    this.allDataModifier = this.dataModifires[0].allDataModifier;
-    this.itemDataModifier = this.dataModifires[0].itemDataModifier;
+    let index = ServersNames.typical;
 
-    if (this.isFirebaseServer) {
-      this.allDataModifier = this.dataModifires[1].allDataModifier;
-      this.itemDataModifier = this.dataModifires[1].itemDataModifier;
+    this.allDataModifier = this.dataModifires[index].allDataModifier;
+    this.itemDataModifier = this.dataModifires[index].itemDataModifier;
+
+    if (this.isServer(ServersNames.firebase)) {
+      index = ServersNames.firebase;
+
+      this.allDataModifier = this.dataModifires[index].allDataModifier;
+      this.itemDataModifier = this.dataModifires[index].itemDataModifier;
     }
   }
 }

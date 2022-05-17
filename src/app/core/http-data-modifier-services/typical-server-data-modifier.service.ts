@@ -6,10 +6,10 @@ export class TypicalServerDataModifierService<T> implements DataModifier {
   constructor() {}
 
   public allDataModifier(data: any): T[] {
-    return data;
+    return JSON.parse(data);
   }
 
-  public itemDataModifier(fetchedItem: any, id: string): T {
-    return fetchedItem;
+  public itemDataModifier(data: any, id: string | number): T {
+    return JSON.parse(data);
   }
 }

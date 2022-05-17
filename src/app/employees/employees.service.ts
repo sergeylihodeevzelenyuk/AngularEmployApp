@@ -4,8 +4,9 @@ import { Inject, Injectable } from '@angular/core';
 import { Employee } from './employee.model';
 import { BaseService } from '../core/base.service';
 import { environment } from 'src/environments/environment';
-import { DATA_MODIFIERS } from '../core/http-responce-handle-services/data-modifier.token';
-import { DataModifier } from '../core/http-responce-handle-services/data-modifier.interface';
+import { ServersNames } from '../core/http-data-modifier-services/servers.enum';
+import { DATA_MODIFIERS } from '../core/http-data-modifier-services/data-modifier.token';
+import { DataModifier } from '../core/http-data-modifier-services/data-modifier.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class EmployeesService extends BaseService<Employee> {
       _http,
       _dataModifires,
       environment.URL.EMPLOYEE,
-      environment.SERVERS_NAME.FIREBASE
+      ServersNames.firebase
     );
   }
 }
