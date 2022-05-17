@@ -5,9 +5,7 @@ import { environment } from 'src/environments/environment';
 
 import { HttpResponseDataModifierService } from './http-response-data-modifier.service';
 
-export abstract class BaseService<
-  T
-> extends HttpResponseDataModifierService<T> {
+export class BaseService<T> extends HttpResponseDataModifierService<T> {
   constructor(
     protected http: HttpClient,
     protected url: URL,

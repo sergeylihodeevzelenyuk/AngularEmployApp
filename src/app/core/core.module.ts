@@ -7,6 +7,7 @@ import { LocalstorageService } from './localstorage.service';
 @NgModule({
   providers: [
     LocalstorageService,
+
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HtttErrorInterceptorService,
