@@ -8,8 +8,8 @@ import {
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 
-import { Error } from '../shared/error-notification/error.model';
-import { environment } from '../../environments/environment';
+import { Error } from '../../shared/error-notification/error.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class HtttErrorInterceptorService implements HttpInterceptor {
