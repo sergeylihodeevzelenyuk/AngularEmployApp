@@ -4,9 +4,8 @@ import { Inject, Injectable } from '@angular/core';
 import { Employee } from './employee.model';
 import { BaseService } from '../core/base.service';
 import { environment } from 'src/environments/environment';
-import { ServersNames } from '../core/http-data-modifier-services/servers.enum';
-import { DATA_MODIFIERS } from '../core/http-data-modifier-services/data-modifier.token';
-import { DataModifier } from '../core/http-data-modifier-services/data-modifier.interface';
+import { DATA_MODIFIER_TOKEN } from '../app.tokens';
+import { DataModifier } from '../app.tokens';
 
 @Injectable({
   providedIn: 'root',
@@ -14,14 +13,9 @@ import { DataModifier } from '../core/http-data-modifier-services/data-modifier.
 export class EmployeesService extends BaseService<Employee> {
   constructor(
     private _http: HttpClient,
-    @Inject(DATA_MODIFIERS)
-    private _dataModifires: ReadonlyArray<DataModifier>
+    @Inject(DATA_MODIFIER_TOKEN)
+    private _dataModifires: DataModifier
   ) {
-    super(
-      _http,
-      _dataModifires,
-      environment.URL.EMPLOYEE,
-      ServersNames.firebase
-    );
+    super(_http, _dataModifires, environment.URL.EMPLOYEE);
   }
 }

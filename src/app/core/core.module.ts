@@ -5,8 +5,7 @@ import { HtttErrorInterceptorService } from './interceptors/httt-error-intercept
 import { HtttUrlEditorInterceptorService } from './interceptors/http-url-editor-interceptor';
 import { LocalstorageService } from './localstorage.service';
 import { FirebaseDataModifierService } from './http-data-modifier-services/firebase-data-modifier.service';
-import { TypicalServerDataModifierService } from './http-data-modifier-services/typical-server-data-modifier.service';
-import { DATA_MODIFIERS } from './http-data-modifier-services/data-modifier.token';
+import { DATA_MODIFIER_TOKEN, MODE_TOKEN, TestMode } from '../app.tokens';
 
 @NgModule({
   providers: [
@@ -22,14 +21,15 @@ import { DATA_MODIFIERS } from './http-data-modifier-services/data-modifier.toke
       multi: true,
     },
     {
-      provide: DATA_MODIFIERS,
-      useClass: TypicalServerDataModifierService,
-      multi: true,
-    },
-    {
-      provide: DATA_MODIFIERS,
-      useClass: FirebaseDataModifierService,
-      multi: true,
+      provide: DATA_MODIFIER_TOKEN,
+      useFactory: (mode: TestMode) => {
+        if (mode.test) {
+          // retrurn some moke service to tests
+        }
+
+        return new FirebaseDataModifierService();
+      },
+      deps: [MODE_TOKEN],
     },
   ],
   declarations: [],

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DataModifier } from './data-modifier.interface';
+import { DataModifier } from 'src/app/app.tokens';
 
 @Injectable()
 export class FirebaseDataModifierService<T> implements DataModifier {

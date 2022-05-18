@@ -3,32 +3,31 @@ import { Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { DataModifier } from './http-data-modifier-services/data-modifier.interface';
-import { DATA_MODIFIERS } from './http-data-modifier-services/data-modifier.token';
-import { ServersNames } from './http-data-modifier-services/servers.enum';
+import { DataModifier } from '../app.tokens';
+import { DATA_MODIFIER_TOKEN } from '../app.tokens';
 
 export class BaseService<T> {
-  allDataModifier!: (data: any) => any;
-  itemDataModifier!: (data: any, id: string) => any;
-
   constructor(
     protected http: HttpClient,
-    @Inject(DATA_MODIFIERS)
-    protected dataModifires: ReadonlyArray<DataModifier>,
-    protected url: URL,
-    protected serverName: number
-  ) {
-    this.setInitialSetup();
-  }
+    @Inject(DATA_MODIFIER_TOKEN)
+    protected dataModifires: DataModifier,
+    protected url: URL
+  ) {}
 
   public fetchAll(): Observable<T[]> {
-    return this.http.get<T[]>(this.url.href).pipe(map(this.allDataModifier));
+    return this.http
+      .get<T[]>(this.url.href)
+      .pipe(map(this.dataModifires.allDataModifier));
   }
 
   public fetch(id: string): Observable<T> {
     return this.http
       .get<T>(`${this.url.href}/${id}`)
-      .pipe(map((fetchedItem) => this.itemDataModifier(fetchedItem, id)));
+      .pipe(
+        map((fetchedItem) =>
+          this.dataModifires.itemDataModifier(fetchedItem, id)
+        )
+      );
   }
 
   public add(item: T): Observable<{ [key: string]: string }> {
@@ -41,23 +40,5 @@ export class BaseService<T> {
 
   public delete(id: string): Observable<any> {
     return this.http.delete<void>(`${this.url.href}/${id}`);
-  }
-
-  private isServer(serverName: number): boolean {
-    return this.serverName === serverName;
-  }
-
-  private setInitialSetup(): void {
-    let index = ServersNames.typical;
-
-    this.allDataModifier = this.dataModifires[index].allDataModifier;
-    this.itemDataModifier = this.dataModifires[index].itemDataModifier;
-
-    if (this.isServer(ServersNames.firebase)) {
-      index = ServersNames.firebase;
-
-      this.allDataModifier = this.dataModifires[index].allDataModifier;
-      this.itemDataModifier = this.dataModifires[index].itemDataModifier;
-    }
   }
 }
