@@ -1,4 +1,5 @@
 import { InjectionToken } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 export interface DataModifier {
   allDataModifier: (data: any) => any;
@@ -21,5 +22,12 @@ export const MODE_TOKEN = new InjectionToken<TestMode>('modeToken', {
       test: false,
       prod: true,
     };
+  },
+});
+
+export const URL_TOKEN = new InjectionToken<URL>('urlToken', {
+  providedIn: 'root',
+  factory: () => {
+    return environment.URL.EMPLOYEE;
   },
 });

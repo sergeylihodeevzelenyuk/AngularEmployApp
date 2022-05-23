@@ -35,7 +35,10 @@ export class BaseService<T> {
   }
 
   public edit(item: T, id: string): Observable<any> {
-    return this.http.put<{ [key: string]: string }>(`${this.url}/${id}`, item);
+    return this.http.put<{ [key: string]: string }>(
+      `${this.url.href}/${id}`,
+      item
+    );
   }
 
   public delete(id: string): Observable<any> {

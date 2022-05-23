@@ -23,10 +23,6 @@ import { DATA_MODIFIER_TOKEN, MODE_TOKEN, TestMode } from '../app.tokens';
     {
       provide: DATA_MODIFIER_TOKEN,
       useFactory: (mode: TestMode) => {
-        if (mode.test) {
-          // retrurn some moke service to tests
-        }
-
         return new FirebaseDataModifierService();
       },
       deps: [MODE_TOKEN],

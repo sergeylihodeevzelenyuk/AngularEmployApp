@@ -55,7 +55,7 @@ export class EmployeeComponent implements OnInit {
     this.isDeletingProcess = true;
 
     this.employeesService.delete(this.id).subscribe({
-      next: () => {
+      next: (response) => {
         this.isDeletingProcess = false;
         this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
       },

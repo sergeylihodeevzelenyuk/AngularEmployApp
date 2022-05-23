@@ -11,7 +11,6 @@ import { Status, Props } from './auth.enum';
 export class AuthService {
   isLoggedSubject = new BehaviorSubject<boolean>(this.authStatus);
   currentUserSubject = new Subject<string>();
-  isLogged = false;
 
   constructor(private localStorage: LocalstorageService) {
     this.configureAuthEnvironment();
@@ -48,9 +47,7 @@ export class AuthService {
   }
 
   get authStatus(): boolean {
-    return this.localStorage.getItem(Props.isLogged) === Status.logged
-      ? true
-      : false;
+    return this.localStorage.getItem(Props.isLogged) === Status.logged;
   }
 
   getCurrentUserInfo(): string {
