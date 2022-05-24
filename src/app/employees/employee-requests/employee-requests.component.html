@@ -1,0 +1,101 @@
+<div class="employee-requests">
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ employee?.name | titlecase }} requests ({{
+            employee?.requests?.length || 0
+          }})
+        </mat-panel-title>
+        <mat-panel-description></mat-panel-description>
+      </mat-expansion-panel-header>
+      <p *ngIf="!employee?.requests">There is no requests yet</p>
+      <div *ngIf="employee?.requests">
+        <div *ngFor="let request of employee?.requests; let i = index">
+          <div
+            class="employee-requests_content"
+            [appEmployeeRequests]="request.status"
+          >
+            <p>
+              {{ request.messege | titlecase }}
+            </p>
+            <div
+              class="employee-requests_actions"
+              *ngIf="request.status === requestStatus.pending"
+            >
+              <div class="example-button-container">
+                <button
+                  mat-mini-fab
+                  color="primary"
+                  aria-label="Example icon button with a menu icon"
+                  (click)="onAcceptRequestClick(i)"
+                >
+                  <mat-icon>done</mat-icon>
+                </button>
+              </div>
+              <div class="example-button-container">
+                <button
+                  mat-mini-fab
+                  color="primary"
+                  aria-label="Example icon button with a menu icon"
+                  (click)="onDeniedRequestClick(i)"
+                >
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Add request for {{ employee?.name | titlecase }}
+        </mat-panel-title>
+        <mat-panel-description></mat-panel-description>
+      </mat-expansion-panel-header>
+      <form
+        [formGroup]="requestsForm"
+        (ngSubmit)="onFormSubmit()"
+        class="employee-requests_form"
+      >
+        <fieldset formArrayName="requests">
+          <div *ngFor="let requestControl of requests.controls; let i = index">
+            <div class="lesson-form-row" [formGroupName]="i">
+              <mat-form-field appearance="fill">
+                <input
+                  matInput
+                  formControlName="request"
+                  placeholder="Add a new request"
+                />
+              </mat-form-field>
+              <mat-icon class="delete-btn" (click)="onDeleteRequest(i)">
+                delete_forever</mat-icon
+              >
+            </div>
+          </div>
+          <button mat-mini-fab (click)="onAddRequest()" type="button">
+            <mat-icon class="add-course-btn">add</mat-icon>
+          </button>
+        </fieldset>
+        <button
+          mat-raised-button
+          type="submit"
+          color="primary"
+          [disabled]="!requestsForm.valid || requestsForm.untouched"
+          class="employee-requests_btn-submit"
+        >
+          Add request
+        </button>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<app-error-notification
+  *ngIf="requestsError"
+  [error]="requestsError"
+  (onClose)="onErrorMsgClose()"
+></app-error-notification>

@@ -6,7 +6,8 @@ export class Employee {
     public phone: number | string,
     public imgPath: string,
     public id: string,
-    public additional: Additional
+    public additional: Additional,
+    public requests?: Requests[]
   ) {}
 }
 
@@ -18,4 +19,8 @@ export class Additional {
     public family: string,
     public hobbies: string
   ) {}
+}
+
+export class Requests {
+  constructor(public messege: string, public status: number) {}
 }

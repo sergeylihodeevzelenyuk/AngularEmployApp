@@ -1,6 +1,6 @@
 <div class="add-empl">
   <h2 class="add-empl_heading">
-    {{ mode === 0 ? "Add a new employee" : "Edit an employee" }}
+    {{ mode === 0 ? 'Add a new employee' : 'Edit an employee' }}
   </h2>
   <form
     *ngIf="!isFetching && !error"
@@ -152,7 +152,7 @@
         type="submit"
         [disabled]="!editForm.valid || editForm.untouched"
       >
-        {{ mode === 0 ? "Add" : "Confirm changes" }}
+        {{ mode === 0 ? 'Add' : 'Confirm changes' }}
       </button>
       <button
         mat-stroked-button

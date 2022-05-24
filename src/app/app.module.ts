@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
+import { EmployeesModule } from './employees/employees.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +18,7 @@ import { CoreModule } from './core/core.module';
     HttpClientModule,
     AppRoutingModule,
     AuthModule,
+    EmployeesModule,
     SharedModule,
     CoreModule,
   ],

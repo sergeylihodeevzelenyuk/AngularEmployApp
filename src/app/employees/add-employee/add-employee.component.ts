@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Employee, Additional } from '../employee.model';
+import { Employee, Additional, Requests } from '../employee.model';
 import { EmployeesService } from '../employees.service';
 import { environment } from 'src/environments/environment';
 import { Error } from 'src/app/shared/error-notification/error.model';
@@ -27,7 +27,8 @@ export class AddEmployeeComponent implements OnInit {
   constructor(
     private employeesService: EmployeesService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -56,27 +57,27 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   setEditForm(): void {
-    this.editForm = new FormGroup({
-      name: new FormControl(null || this.employee?.name, [Validators.required]),
-      imgPath: new FormControl(null || this.employee?.imgPath),
-      position: new FormControl(null || this.employee?.position, [
+    this.editForm = this.fb.group({
+      name: this.fb.control(null || this.employee?.name, [Validators.required]),
+      imgPath: this.fb.control(null || this.employee?.imgPath),
+      position: this.fb.control(null || this.employee?.position, [
         Validators.required,
       ]),
-      email: new FormControl(null || this.employee?.email, [
+      email: this.fb.control(null || this.employee?.email, [
         Validators.required,
         Validators.email,
       ]),
-      phone: new FormControl(null || this.employee?.phone, [
+      phone: this.fb.control(null || this.employee?.phone, [
         Validators.required,
       ]),
       additional: new FormGroup({
-        team: new FormControl(null || this.employee?.additional?.team),
-        birthday: new FormControl(null || this.employee?.additional?.birthday),
-        startDate: new FormControl(
+        team: this.fb.control(null || this.employee?.additional?.team),
+        birthday: this.fb.control(null || this.employee?.additional?.birthday),
+        startDate: this.fb.control(
           null || this.employee?.additional?.startDate
         ),
-        family: new FormControl(null || this.employee?.additional?.family),
-        hobbies: new FormControl(null || this.employee?.additional?.hobbies),
+        family: this.fb.control(null || this.employee?.additional?.family),
+        hobbies: this.fb.control(null || this.employee?.additional?.hobbies),
       }),
     });
   }
@@ -151,7 +152,8 @@ export class AddEmployeeComponent implements OnInit {
       this.editForm.value.phone,
       this.editForm.value.imgPath || '',
       this.id || '',
-      this.additional
+      this.additional,
+      this.employee?.requests || undefined
     );
   }
 

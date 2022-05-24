@@ -28,7 +28,7 @@ export class EmployeeComponent implements OnInit {
     private employeesService: EmployeesService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.id = this.route.snapshot.queryParams['id'];
 
     this.employee$ = this.employeesService
@@ -36,21 +36,21 @@ export class EmployeeComponent implements OnInit {
       .pipe(catchError(this.handleError.bind(this)));
   }
 
-  onEditClick(): void {
+  public onEditClick(): void {
     this.router.navigate([this.ROUTE.EMPLOYEES.EDIT_FULL_PASS], {
       queryParams: { id: this.id },
     });
   }
 
-  onDeleteClick(): void {
+  public onDeleteClick(): void {
     this.isConfirmingDeleting = true;
   }
 
-  onOmitDeleting(): void {
+  public onOmitDeleting(): void {
     this.isConfirmingDeleting = false;
   }
 
-  onConfirmDeleting(): void {
+  public onConfirmDeleting(): void {
     this.isConfirmingDeleting = false;
     this.isDeletingProcess = true;
 
@@ -66,12 +66,12 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  onErrorMessageClose(): void {
+  public onErrorMessageClose(): void {
     this.error = null;
     this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
   }
 
-  private handleError(error: Error): Observable<never> {
+  public handleError(error: Error): Observable<never> {
     this.error = error;
     return throwError(() => error);
   }

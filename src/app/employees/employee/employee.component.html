@@ -38,6 +38,9 @@
           </mat-expansion-panel>
         </mat-accordion>
       </div>
+      <div class="employee_request-wrapper">
+        <app-employee-requests [employee]="employee"></app-employee-requests>
+      </div>
     </section>
     <div class="employee_actions">
       <button mat-raised-button type="button" (click)="onEditClick()">
@@ -56,7 +59,6 @@
     </div>
   </div>
 </div>
-
 <app-notification
   *ngIf="isDeletingProcess"
   [title]="NOTIFICATION"
