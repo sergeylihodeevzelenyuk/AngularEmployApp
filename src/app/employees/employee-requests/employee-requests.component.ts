@@ -34,11 +34,11 @@ export class EmployeeRequestsComponent implements OnInit {
     });
   }
 
-  public onAddRequest(): void {
-    this.requests.push(this.newRequest());
+  public onAddRequestInput(): void {
+    this.requests.push(this.newRequestInput());
   }
 
-  public onDeleteRequest(i: number) {
+  public onDeleteRequestInput(i: number) {
     this.requests.removeAt(i);
   }
 
@@ -46,13 +46,13 @@ export class EmployeeRequestsComponent implements OnInit {
     return this.requestsForm.controls['requests'] as FormArray;
   }
 
-  public newRequest(): FormGroup {
+  private newRequestInput(): FormGroup {
     return this.fb.group({
       request: ['', Validators.required],
     });
   }
 
-  public onFormSubmit(): void {
+  public onRequestsFormSubmit(): void {
     this.updateEmployeeAndRefreshPage(this.employeeWithRequests);
   }
 
@@ -81,7 +81,7 @@ export class EmployeeRequestsComponent implements OnInit {
   }
 
   private changeRequestStatus(i: number, status: number): void {
-    const employee = this.getClonedObj<Employee>(this.employee);
+    const employee = this.clonedEmployee;
     const request = employee.requests?.find((item, index) => index === i);
     request!.status = status;
 
@@ -89,7 +89,7 @@ export class EmployeeRequestsComponent implements OnInit {
   }
 
   private get employeeWithRequests(): Employee {
-    const employee = this.getClonedObj<Employee>(this.employee);
+    const employee = this.clonedEmployee;
 
     if (!employee.requests) {
       employee.requests = [];
@@ -99,8 +99,8 @@ export class EmployeeRequestsComponent implements OnInit {
     return employee;
   }
 
-  private getClonedObj<T>(obj: T): T {
-    return JSON.parse(JSON.stringify(obj)) as T;
+  private get clonedEmployee(): Employee {
+    return JSON.parse(JSON.stringify(this.employee));
   }
 
   private get newRequestsProp(): Requests[] {

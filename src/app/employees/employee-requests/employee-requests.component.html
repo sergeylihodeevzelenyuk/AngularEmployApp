@@ -23,7 +23,7 @@
               class="employee-requests_actions"
               *ngIf="request.status === requestStatus.pending"
             >
-              <div class="example-button-container">
+              <div>
                 <button
                   mat-mini-fab
                   color="primary"
@@ -33,7 +33,7 @@
                   <mat-icon>done</mat-icon>
                 </button>
               </div>
-              <div class="example-button-container">
+              <div>
                 <button
                   mat-mini-fab
                   color="primary"
@@ -59,7 +59,7 @@
       </mat-expansion-panel-header>
       <form
         [formGroup]="requestsForm"
-        (ngSubmit)="onFormSubmit()"
+        (ngSubmit)="onRequestsFormSubmit()"
         class="employee-requests_form"
       >
         <fieldset formArrayName="requests">
@@ -72,12 +72,12 @@
                   placeholder="Add a new request"
                 />
               </mat-form-field>
-              <mat-icon class="delete-btn" (click)="onDeleteRequest(i)">
+              <mat-icon class="delete-btn" (click)="onDeleteRequestInput(i)">
                 delete_forever</mat-icon
               >
             </div>
           </div>
-          <button mat-mini-fab (click)="onAddRequest()" type="button">
+          <button mat-mini-fab (click)="onAddRequestInput()" type="button">
             <mat-icon class="add-course-btn">add</mat-icon>
           </button>
         </fieldset>
