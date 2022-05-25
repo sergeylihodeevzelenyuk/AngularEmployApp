@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 
 import { Employee } from '../employee.model';
 import { EmployeesService } from '../employees.service';
@@ -54,16 +54,18 @@ export class EmployeeComponent implements OnInit {
     this.isConfirmingDeleting = false;
     this.isDeletingProcess = true;
 
-    this.employeesService.delete(this.id).subscribe({
-      next: (response) => {
-        this.isDeletingProcess = false;
-        this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
-      },
-      error: (error) => {
-        this.isDeletingProcess = false;
-        this.error = error;
-      },
-    });
+    this.employeesService
+      .delete(this.id)
+      .pipe(
+        catchError(this.handleError.bind(this)),
+        tap(this.handleAfterDeleteEffect.bind(this))
+      )
+      .subscribe();
+  }
+
+  private handleAfterDeleteEffect(): void {
+    this.isDeletingProcess = false;
+    this.router.navigate([this.ROUTE.EMPLOYEES.ROOT]);
   }
 
   public onErrorMessageClose(): void {

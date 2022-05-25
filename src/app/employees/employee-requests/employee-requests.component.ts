@@ -34,6 +34,10 @@ export class EmployeeRequestsComponent implements OnInit {
     });
   }
 
+  public onRequestsFormSubmit(): void {
+    this.updateEmployeeAndRefreshPage(this.employeeWithRequests);
+  }
+
   public onAddRequestInput(): void {
     this.requests.push(this.newRequestInput());
   }
@@ -52,10 +56,6 @@ export class EmployeeRequestsComponent implements OnInit {
     });
   }
 
-  public onRequestsFormSubmit(): void {
-    this.updateEmployeeAndRefreshPage(this.employeeWithRequests);
-  }
-
   public onAcceptRequestClick(i: number): void {
     this.changeRequestStatus(i, RequestStatus.accepted);
   }
@@ -67,12 +67,14 @@ export class EmployeeRequestsComponent implements OnInit {
   private updateEmployeeAndRefreshPage(updatedEmployee: Employee): void {
     this.employeeServise
       .edit(updatedEmployee, this.employee?.id as string)
-      .pipe(catchError(this.handleError.bind(this)))
-      .pipe(tap(() => this.ComponentRefresh()))
+      .pipe(
+        catchError(this.handleError.bind(this)),
+        tap(this.refreshPage.bind(this))
+      )
       .subscribe();
   }
 
-  private ComponentRefresh(): void {
+  private refreshPage(): void {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
       this.router.navigate([this.ROUTE.EMPLOYEES.EMPLOYEE_FULL_PASS], {
         queryParams: { id: this.employee?.id },
