@@ -40,7 +40,7 @@ export class EmployeeRequestsComponent implements OnInit {
   private requestFormRef!: ElementRef;
 
   requests$!: Observable<Request[]>;
-  requestsFromForm$!: Observable<Request[]>;
+  requestsViaForm$!: Observable<Request[]>;
   onChangRequestStatus$ = new BehaviorSubject<Request[]>([]);
   updatedStatusRequests$!: Observable<Request[]>;
 
@@ -61,7 +61,7 @@ export class EmployeeRequestsComponent implements OnInit {
       requests: this.fb.array([], Validators.required),
     });
 
-    this.requestsFromForm$ = fromEvent(
+    this.requestsViaForm$ = fromEvent(
       this.requestFormRef.nativeElement,
       'submit'
     ).pipe(
@@ -79,7 +79,7 @@ export class EmployeeRequestsComponent implements OnInit {
 
     this.requests$ = merge(
       this.initialFetchedRequests$,
-      this.requestsFromForm$,
+      this.requestsViaForm$,
       this.updatedStatusRequests$
     ).pipe(
       tap(() => {
@@ -95,10 +95,7 @@ export class EmployeeRequestsComponent implements OnInit {
     this.isFetching = true;
 
     return this.requestsId
-      ? this.requestsService
-          .fetch(this.requestsId as string)
-          .pipe(map((res) => this.objectToArray(res) as unknown as Request[]))
-          .pipe(tap((res) => (this.fetchedRequests = [...res])))
+      ? this.getFetchedRequestObservable(this.requestsId)
       : of([]);
   }
 
@@ -106,7 +103,7 @@ export class EmployeeRequestsComponent implements OnInit {
     this.isFetching = true;
 
     return this.requestsService
-      .add(this.newRequestsFromForm as unknown as Request)
+      .add(this.newRequestsViaForm as unknown as Request)
       .pipe(
         tap((res) => {
           this.requestsId = res['name'];
@@ -114,12 +111,7 @@ export class EmployeeRequestsComponent implements OnInit {
         })
       )
       .pipe(
-        mergeMap((id) =>
-          this.requestsService
-            .fetch(id['name'])
-            .pipe(map((res) => this.objectToArray(res) as unknown as Request[]))
-            .pipe(tap((res) => (this.fetchedRequests = [...res])))
-        )
+        mergeMap((id) => this.getFetchedRequestObservable(id['name']))
       ) as unknown as Observable<Request[]>;
   }
 
@@ -131,6 +123,13 @@ export class EmployeeRequestsComponent implements OnInit {
     return this.requestsService
       .edit(requests as unknown as Request, this.requestsId as string)
       .pipe(tap((res) => (this.fetchedRequests = res)));
+  }
+
+  private getFetchedRequestObservable(id: string): Observable<Request[]> {
+    return this.requestsService
+      .fetch(id)
+      .pipe(map((res) => this.objectToArray(res) as unknown as Request[]))
+      .pipe(tap((res) => (this.fetchedRequests = [...res])));
   }
 
   public onChangeStatus($data: { index: number; status: number }): void {
@@ -161,8 +160,8 @@ export class EmployeeRequestsComponent implements OnInit {
 
   private get updatedRequests(): Request[] {
     return this.fetchedRequests
-      ? [...this.fetchedRequests, ...this.newRequestsFromForm]
-      : this.newRequestsFromForm;
+      ? [...this.fetchedRequests, ...this.newRequestsViaForm]
+      : this.newRequestsViaForm;
   }
 
   private getUpdatedRequestsStatus(i: number, status: number): Request[] {
@@ -172,7 +171,7 @@ export class EmployeeRequestsComponent implements OnInit {
     return requests;
   }
 
-  private get newRequestsFromForm(): Request[] {
+  private get newRequestsViaForm(): Request[] {
     return this.requestsForm.value.requests.map(
       (req: any) => new Request(req.request, RequestStatus.pending)
     );
@@ -194,10 +193,6 @@ export class EmployeeRequestsComponent implements OnInit {
     while (formArray.length !== 0) {
       formArray.removeAt(0);
     }
-  }
-
-  public onErrorMsgClose(): void {
-    this.requestsError = null;
   }
 
   private handleError(error: Error): Observable<Error> {

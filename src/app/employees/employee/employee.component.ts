@@ -76,10 +76,11 @@ export class EmployeeComponent implements OnInit {
 
   public onGetRequestIdHandler(id: any): void {
     this.employee.requestsId = id;
+
     this.employeesService
       .edit(this.employee, this.id)
       .pipe(catchError(this.handleError.bind(this)))
-      .subscribe((res) => console.log(res));
+      .subscribe();
   }
 
   private handleAfterDeleteEffect(): void {

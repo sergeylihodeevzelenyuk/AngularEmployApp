@@ -98,7 +98,7 @@
 <app-error-notification
   *ngIf="requestsError"
   [error]="requestsError"
-  (onClose)="onErrorMsgClose()"
+  (onClose)="this.requestsError = null; this.isFetching = false"
 ></app-error-notification>
 <ng-template #loading>
   <div class="employees_spinner">
