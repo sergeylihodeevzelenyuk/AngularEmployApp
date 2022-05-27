@@ -27,7 +27,9 @@
                   mat-mini-fab
                   color="primary"
                   aria-label="Example icon button with a menu icon"
-                  (click)="onAcceptRequest(i)"
+                  (click)="
+                    onChangeStatus({ index: i, status: requestStatus.accepted })
+                  "
                 >
                   <mat-icon>done</mat-icon>
                 </button>
@@ -37,7 +39,9 @@
                   mat-mini-fab
                   color="primary"
                   aria-label="Example icon button with a menu icon"
-                  (click)="onDeniedRequest(i)"
+                  (click)="
+                    onChangeStatus({ index: i, status: requestStatus.denied })
+                  "
                 >
                   <mat-icon>clear</mat-icon>
                 </button>

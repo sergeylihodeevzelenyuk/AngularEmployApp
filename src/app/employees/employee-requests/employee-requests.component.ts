@@ -41,8 +41,8 @@ export class EmployeeRequestsComponent implements OnInit {
 
   requests$!: Observable<Request[]>;
   requestsFromForm$!: Observable<Request[]>;
-  onChangedRequestStatus$ = new BehaviorSubject<Request[]>([]);
-  requestsWithUpdatedStatus$!: Observable<Request[]>;
+  onChangRequestStatus$ = new BehaviorSubject<Request[]>([]);
+  updatedStatusRequests$!: Observable<Request[]>;
 
   requestsForm!: FormGroup;
   fetchedRequests!: Request[];
@@ -67,22 +67,22 @@ export class EmployeeRequestsComponent implements OnInit {
     ).pipe(
       switchMap(() => {
         if (this.requestsId) {
-          return this.getObservableWhithEditedRequests(this.updatedRequests);
+          return this.getEditedRequestsObservable(this.updatedRequests);
         }
 
         return this.firstCreatedRequest$;
       })
     );
 
-    this.requestsWithUpdatedStatus$ = this.onChangedRequestStatus$.pipe(
+    this.updatedStatusRequests$ = this.onChangRequestStatus$.pipe(
       skip(1),
-      mergeMap((requests) => this.getObservableWhithEditedRequests(requests))
+      mergeMap((requests) => this.getEditedRequestsObservable(requests))
     );
 
     this.requests$ = merge(
       this.initialFetchedRequests$,
       this.requestsFromForm$,
-      this.requestsWithUpdatedStatus$
+      this.updatedStatusRequests$
     ).pipe(
       tap(() => {
         this.requestsForm.reset();
@@ -127,7 +127,7 @@ export class EmployeeRequestsComponent implements OnInit {
       ) as unknown as Observable<Request[]>;
   }
 
-  private getObservableWhithEditedRequests(
+  private getEditedRequestsObservable(
     requests: Request[]
   ): Observable<Request[]> {
     this.isFetching = true;
@@ -137,15 +137,11 @@ export class EmployeeRequestsComponent implements OnInit {
       .pipe(tap((res) => (this.fetchedRequests = res)));
   }
 
-  public onAcceptRequest($i: number): void {
-    this.onChangedRequestStatus$.next(
-      this.getUpdatedRequestsStatus($i, RequestStatus.accepted)
-    );
-  }
+  public onChangeStatus($data: { index: number; status: number }): void {
+    const { index, status } = $data;
 
-  public onDeniedRequest($i: number): void {
-    this.onChangedRequestStatus$.next(
-      this.getUpdatedRequestsStatus($i, RequestStatus.denied)
+    this.onChangRequestStatus$.next(
+      this.getUpdatedRequestsStatus(index, status)
     );
   }
 
