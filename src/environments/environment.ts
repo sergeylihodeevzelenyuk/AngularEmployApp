@@ -23,6 +23,9 @@ export const environment = {
     EMPLOYEE: new URL(
       'https://employees-aa53b-default-rtdb.firebaseio.com/employees'
     ),
+    REQUESTS: new URL(
+      'https://employees-aa53b-default-rtdb.firebaseio.com/requests'
+    ),
   },
 
   ID_PROP: 'name',

@@ -1,23 +1,22 @@
 <div class="employee-requests">
-  <mat-accordion>
+  <mat-accordion *ngIf="{ data: requests$ | async } as requests">
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{ employee?.name | titlecase }} requests ({{
-            employee?.requests?.length || 0
-          }})
+          All requests ({{ requests.data?.length || 0 }})
+          <ng-template *ngIf="!isFetching; else loading"></ng-template>
         </mat-panel-title>
         <mat-panel-description></mat-panel-description>
       </mat-expansion-panel-header>
-      <p *ngIf="!employee?.requests">There is no requests yet</p>
-      <div *ngIf="employee?.requests">
-        <div *ngFor="let request of employee?.requests; let i = index">
+      <p *ngIf="requests.data?.length === 0">There is no requests yet</p>
+      <div *ngIf="requests.data">
+        <div *ngFor="let request of requests.data; let i = index">
           <div
             class="employee-requests_content"
             [appEmployeeRequests]="request.status"
           >
             <p>
-              {{ request.messege | titlecase }}
+              {{ request.message | titlecase }}
             </p>
             <div
               class="employee-requests_actions"
@@ -28,7 +27,7 @@
                   mat-mini-fab
                   color="primary"
                   aria-label="Example icon button with a menu icon"
-                  (click)="onAcceptRequestClick(i)"
+                  (click)="onAcceptRequest(i)"
                 >
                   <mat-icon>done</mat-icon>
                 </button>
@@ -38,7 +37,7 @@
                   mat-mini-fab
                   color="primary"
                   aria-label="Example icon button with a menu icon"
-                  (click)="onDeniedRequestClick(i)"
+                  (click)="onDeniedRequest(i)"
                 >
                   <mat-icon>clear</mat-icon>
                 </button>
@@ -52,17 +51,18 @@
   <mat-accordion>
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Add request for {{ employee?.name | titlecase }}
-        </mat-panel-title>
+        <mat-panel-title> Add request </mat-panel-title>
         <mat-panel-description></mat-panel-description>
       </mat-expansion-panel-header>
       <form
+        #requestForm
         [formGroup]="requestsForm"
-        (ngSubmit)="onRequestsFormSubmit()"
         class="employee-requests_form"
       >
         <fieldset formArrayName="requests">
+          <button mat-mini-fab (click)="onAddRequestInput()" type="button">
+            <mat-icon class="add-course-btn">add</mat-icon>
+          </button>
           <div *ngFor="let requestControl of requests.controls; let i = index">
             <div class="lesson-form-row" [formGroupName]="i">
               <mat-form-field appearance="fill">
@@ -77,9 +77,6 @@
               >
             </div>
           </div>
-          <button mat-mini-fab (click)="onAddRequestInput()" type="button">
-            <mat-icon class="add-course-btn">add</mat-icon>
-          </button>
         </fieldset>
         <button
           mat-raised-button
@@ -99,3 +96,8 @@
   [error]="requestsError"
   (onClose)="onErrorMsgClose()"
 ></app-error-notification>
+<ng-template #loading>
+  <div class="employees_spinner">
+    <mat-spinner [diameter]="20"></mat-spinner>
+  </div>
+</ng-template>

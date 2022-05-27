@@ -10,12 +10,12 @@ export const DATA_MODIFIER_TOKEN = new InjectionToken<DataModifier>(
   'dataModifiers'
 );
 
-export interface TestMode {
+export interface Mode {
   test: boolean;
   prod: boolean;
 }
 
-export const MODE_TOKEN = new InjectionToken<TestMode>('modeToken', {
+export const MODE_TOKEN = new InjectionToken<Mode>('modeToken', {
   providedIn: 'root',
   factory: () => {
     return {

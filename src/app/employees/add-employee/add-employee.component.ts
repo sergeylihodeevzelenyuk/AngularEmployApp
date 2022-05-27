@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Employee, Additional, Requests } from '../employee.model';
+import { Employee, Additional } from '../employee.model';
 import { EmployeesService } from '../employees.service';
 import { environment } from 'src/environments/environment';
 import { Error } from 'src/app/shared/error-notification/error.model';
@@ -153,7 +153,7 @@ export class AddEmployeeComponent implements OnInit {
       this.editForm.value.imgPath || '',
       this.id || '',
       this.additional,
-      this.employee?.requests || undefined
+      this.employee?.requestsId || undefined
     );
   }
 

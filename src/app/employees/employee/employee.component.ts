@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 
 import { Employee } from '../employee.model';
 import { EmployeesService } from '../employees.service';
 import { environment } from 'src/environments/environment';
 import { Error } from 'src/app/shared/error-notification/error.model';
+import { RequestsService } from '../employee-requests/requests.service';
 
 @Component({
   selector: 'app-employee',
@@ -14,6 +15,7 @@ import { Error } from 'src/app/shared/error-notification/error.model';
 })
 export class EmployeeComponent implements OnInit {
   id!: string;
+  employee!: Employee;
   employee$!: Observable<Employee>;
   isDeletingProcess = false;
   isConfirmingDeleting = false;
@@ -25,7 +27,8 @@ export class EmployeeComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private employeesService: EmployeesService
+    private employeesService: EmployeesService,
+    private requestService: RequestsService
   ) {}
 
   public ngOnInit(): void {
@@ -33,7 +36,8 @@ export class EmployeeComponent implements OnInit {
 
     this.employee$ = this.employeesService
       .fetch(this.id)
-      .pipe(catchError(this.handleError.bind(this)));
+      .pipe(catchError(this.handleError.bind(this)))
+      .pipe(tap((responce) => (this.employee = responce)));
   }
 
   public onEditClick(): void {
@@ -61,6 +65,21 @@ export class EmployeeComponent implements OnInit {
         tap(this.handleAfterDeleteEffect.bind(this))
       )
       .subscribe();
+
+    if (this.employee.requestsId) {
+      this.requestService
+        .delete(this.employee.requestsId)
+        .pipe(catchError(this.handleError.bind(this)))
+        .subscribe();
+    }
+  }
+
+  public onGetRequestIdHandler(id: any): void {
+    this.employee.requestsId = id;
+    this.employeesService
+      .edit(this.employee, this.id)
+      .pipe(catchError(this.handleError.bind(this)))
+      .subscribe((res) => console.log(res));
   }
 
   private handleAfterDeleteEffect(): void {

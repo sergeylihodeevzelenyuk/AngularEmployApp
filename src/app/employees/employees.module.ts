@@ -14,6 +14,8 @@ import { environment } from 'src/environments/environment';
 import { ConfirmDeletingComponent } from './employee/confirm-deleting/confirm-deleting.component';
 import { SortPipe } from './sort.pipe';
 import { EmployeeRequestsDirective } from './employee-requests/employee-requests.directive';
+import { RequestsService } from './employee-requests/requests.service';
+import { EmployeesService } from './employees.service';
 
 const ROUTE = environment.PATH;
 
@@ -55,6 +57,6 @@ const ROUTE = environment.PATH;
     ReactiveFormsModule,
     SharedModule,
   ],
-  providers: [],
+  providers: [EmployeesService, RequestsService],
 })
 export class EmployeesModule {}

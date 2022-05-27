@@ -39,7 +39,10 @@
         </mat-accordion>
       </div>
       <div class="employee_request-wrapper">
-        <app-employee-requests [employee]="employee"></app-employee-requests>
+        <app-employee-requests
+          (onGetRequestId)="onGetRequestIdHandler($event)"
+          [requestsId]="employee.requestsId"
+        ></app-employee-requests>
       </div>
     </section>
     <div class="employee_actions">

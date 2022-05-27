@@ -7,9 +7,7 @@ import { environment } from 'src/environments/environment';
 import { DATA_MODIFIER_TOKEN } from '../app.tokens';
 import { DataModifier } from '../app.tokens';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class EmployeesService extends BaseService<Employee> {
   constructor(
     private _http: HttpClient,

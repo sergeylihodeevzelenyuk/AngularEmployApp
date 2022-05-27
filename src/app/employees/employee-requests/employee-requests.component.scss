@@ -24,6 +24,14 @@
     }
   }
 
+  & .mat-form-field {
+    width: 150px;
+  }
+
+  & .mat-mini-fab {
+    margin-bottom: 15px;
+  }
+
   &_actions {
     position: absolute;
     top: 11px;
@@ -48,7 +56,6 @@
 
     fieldset {
       border: none;
-      padding-bottom: 30px;
     }
   }
 }

@@ -5,7 +5,7 @@ import { HtttErrorInterceptorService } from './interceptors/httt-error-intercept
 import { HtttUrlEditorInterceptorService } from './interceptors/http-url-editor-interceptor';
 import { LocalstorageService } from './localstorage.service';
 import { FirebaseDataModifierService } from './http-data-modifier-services/firebase-data-modifier.service';
-import { DATA_MODIFIER_TOKEN, MODE_TOKEN, TestMode } from '../app.tokens';
+import { DATA_MODIFIER_TOKEN, MODE_TOKEN, Mode } from '../app.tokens';
 
 @NgModule({
   providers: [
@@ -22,7 +22,7 @@ import { DATA_MODIFIER_TOKEN, MODE_TOKEN, TestMode } from '../app.tokens';
     },
     {
       provide: DATA_MODIFIER_TOKEN,
-      useFactory: (mode: TestMode) => {
+      useFactory: (mode: Mode) => {
         return new FirebaseDataModifierService();
       },
       deps: [MODE_TOKEN],
