@@ -118,7 +118,7 @@ export class EmployeeRequestsComponent implements OnInit {
         })
       )
       .pipe(
-        switchMap((id) =>
+        mergeMap((id) =>
           this.requestsService
             .fetch(id['name'])
             .pipe(map((res) => this.objectToArray(res) as unknown as Request[]))
