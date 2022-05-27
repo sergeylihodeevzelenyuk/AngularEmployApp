@@ -73,7 +73,7 @@ export class EmployeeRequestsComponent implements OnInit {
 
     this.updatedStatusRequests$ = this.onChangRequestStatus$.pipe(
       skip(1),
-      mergeMap((requests) => this.getEditedRequestsStream(requests))
+      switchMap((requests) => this.getEditedRequestsStream(requests))
     );
 
     this.requests$ = merge(
@@ -82,7 +82,6 @@ export class EmployeeRequestsComponent implements OnInit {
       this.updatedStatusRequests$
     ).pipe(
       tap(() => {
-        this.requestsForm.reset();
         this.clearFormArray(this.requests);
         this.isFetching = false;
       }),
@@ -111,7 +110,7 @@ export class EmployeeRequestsComponent implements OnInit {
 
     return this.requestsService
       .edit(requests as unknown as Request, this.requestsId as string)
-      .pipe(tap((res) => (this.fetchedRequests = res)));
+      .pipe(tap((res) => (this.fetchedRequests = [...res])));
   }
 
   private getFetchedRequestStream(id: string): Observable<Request[]> {
