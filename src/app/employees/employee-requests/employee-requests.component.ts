@@ -57,28 +57,27 @@ export class EmployeeRequestsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const formEl = this.requestFormRef.nativeElement;
+
     this.requestsForm = this.fb.group({
       requests: this.fb.array([], Validators.required),
     });
 
-    this.requestsViaForm$ = fromEvent(
-      this.requestFormRef.nativeElement,
-      'submit'
-    ).pipe(
+    this.requestsViaForm$ = fromEvent(formEl, 'submit').pipe(
       switchMap(() =>
         this.requestsId
-          ? this.getEditedRequestsObservable(this.updatedRequests)
+          ? this.getEditedRequestsStream(this.updatedRequests)
           : this.firstCreatedRequest$
       )
     );
 
     this.updatedStatusRequests$ = this.onChangRequestStatus$.pipe(
       skip(1),
-      mergeMap((requests) => this.getEditedRequestsObservable(requests))
+      mergeMap((requests) => this.getEditedRequestsStream(requests))
     );
 
     this.requests$ = merge(
-      this.initialFetchedRequests$,
+      this.requestsId ? this.getFetchedRequestStream(this.requestsId) : of([]),
       this.requestsViaForm$,
       this.updatedStatusRequests$
     ).pipe(
@@ -89,14 +88,6 @@ export class EmployeeRequestsComponent implements OnInit {
       }),
       catchError(this.handleError.bind(this))
     ) as Observable<Request[]>;
-  }
-
-  private get initialFetchedRequests$(): Observable<Request[]> {
-    this.isFetching = true;
-
-    return this.requestsId
-      ? this.getFetchedRequestObservable(this.requestsId)
-      : of([]);
   }
 
   private get firstCreatedRequest$(): Observable<Request[]> {
@@ -111,13 +102,11 @@ export class EmployeeRequestsComponent implements OnInit {
         })
       )
       .pipe(
-        mergeMap((id) => this.getFetchedRequestObservable(id['name']))
+        mergeMap((id) => this.getFetchedRequestStream(id['name']))
       ) as unknown as Observable<Request[]>;
   }
 
-  private getEditedRequestsObservable(
-    requests: Request[]
-  ): Observable<Request[]> {
+  private getEditedRequestsStream(requests: Request[]): Observable<Request[]> {
     this.isFetching = true;
 
     return this.requestsService
@@ -125,7 +114,9 @@ export class EmployeeRequestsComponent implements OnInit {
       .pipe(tap((res) => (this.fetchedRequests = res)));
   }
 
-  private getFetchedRequestObservable(id: string): Observable<Request[]> {
+  private getFetchedRequestStream(id: string): Observable<Request[]> {
+    this.isFetching = true;
+
     return this.requestsService
       .fetch(id)
       .pipe(map((res) => this.objectToArray(res) as unknown as Request[]))
