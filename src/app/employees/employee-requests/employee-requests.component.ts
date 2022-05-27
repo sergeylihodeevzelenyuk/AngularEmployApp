@@ -65,13 +65,11 @@ export class EmployeeRequestsComponent implements OnInit {
       this.requestFormRef.nativeElement,
       'submit'
     ).pipe(
-      switchMap(() => {
-        if (this.requestsId) {
-          return this.getEditedRequestsObservable(this.updatedRequests);
-        }
-
-        return this.firstCreatedRequest$;
-      })
+      switchMap(() =>
+        this.requestsId
+          ? this.getEditedRequestsObservable(this.updatedRequests)
+          : this.firstCreatedRequest$
+      )
     );
 
     this.updatedStatusRequests$ = this.onChangRequestStatus$.pipe(
@@ -96,14 +94,12 @@ export class EmployeeRequestsComponent implements OnInit {
   private get initialFetchedRequests$(): Observable<Request[]> {
     this.isFetching = true;
 
-    if (this.requestsId) {
-      return this.requestsService
-        .fetch(this.requestsId as string)
-        .pipe(map((res) => this.objectToArray(res) as unknown as Request[]))
-        .pipe(tap((res) => (this.fetchedRequests = [...res])));
-    }
-
-    return of([]);
+    return this.requestsId
+      ? this.requestsService
+          .fetch(this.requestsId as string)
+          .pipe(map((res) => this.objectToArray(res) as unknown as Request[]))
+          .pipe(tap((res) => (this.fetchedRequests = [...res])))
+      : of([]);
   }
 
   private get firstCreatedRequest$(): Observable<Request[]> {
