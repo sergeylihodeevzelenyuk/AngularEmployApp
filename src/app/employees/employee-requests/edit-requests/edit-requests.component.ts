@@ -38,11 +38,9 @@ export class EditRequests implements OnInit, OnDestroy {
   }
 
   public onFormSubmit(): void {
-    const newRequests = this.newRequestsViaForm;
+    const updatedRequests = this.getUpdatedRequests(this.newRequestsViaForm);
 
-    this.requestStorageService.editedRequests.next(
-      this.getUpdatedRequests(newRequests)
-    );
+    this.requestStorageService.editedRequests.next(updatedRequests);
     this.onModalClose();
   }
 

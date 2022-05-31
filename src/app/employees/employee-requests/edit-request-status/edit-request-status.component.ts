@@ -42,7 +42,8 @@ export class EditRequestsStatus implements OnInit {
   }
 
   public onChangeStatus(status: number): void {
-    const requests = this.getUpdatedRequestsStatus(this.requestIndex, status);
+    const requests = this.getUpdatedRequests(this.requestIndex, status);
+
     if (this.requests[this.requestIndex].status === status) {
       return;
     }
@@ -50,7 +51,7 @@ export class EditRequestsStatus implements OnInit {
     this.requestStorageService.editedRequests.next(requests);
   }
 
-  private getUpdatedRequestsStatus(i: number, status: number): Request[] {
+  private getUpdatedRequests(i: number, status: number): Request[] {
     const requests = JSON.parse(JSON.stringify(this.requests));
     requests![i].status = status;
 
