@@ -3,7 +3,15 @@
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          All requests ({{ requests.data?.length || 0 }})
+          <div class="employee-requests_badge">
+            <span
+              [matBadge]="requests.data?.length"
+              matBadgeOverlap="false"
+              matBadgeColor="accent"
+              [matBadgeHidden]="requests.data?.length === 0"
+              >All requests</span
+            >
+          </div>
           <ng-template *ngIf="!isFetching; else loading"></ng-template>
         </mat-panel-title>
         <mat-panel-description></mat-panel-description>
@@ -14,86 +22,26 @@
           <div
             class="employee-requests_content"
             [appEmployeeRequests]="request.status"
+            (click)="onEditRequestStatusClick(i)"
           >
             <p>
               {{ request.message | titlecase }}
             </p>
-            <div
-              class="employee-requests_actions"
-              *ngIf="request.status === requestStatus.pending"
-            >
-              <div>
-                <button
-                  mat-mini-fab
-                  color="primary"
-                  aria-label="Example icon button with a menu icon"
-                  (click)="
-                    onChangeStatus({ index: i, status: requestStatus.accepted })
-                  "
-                >
-                  <mat-icon>done</mat-icon>
-                </button>
-              </div>
-              <div>
-                <button
-                  mat-mini-fab
-                  color="primary"
-                  aria-label="Example icon button with a menu icon"
-                  (click)="
-                    onChangeStatus({ index: i, status: requestStatus.denied })
-                  "
-                >
-                  <mat-icon>clear</mat-icon>
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </mat-expansion-panel>
   </mat-accordion>
-  <mat-accordion>
-    <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header>
-        <mat-panel-title> Add request </mat-panel-title>
-        <mat-panel-description></mat-panel-description>
-      </mat-expansion-panel-header>
-      <form
-        #requestForm
-        [formGroup]="requestsForm"
-        class="employee-requests_form"
-      >
-        <fieldset formArrayName="requests">
-          <button mat-mini-fab (click)="onAddRequestInput()" type="button">
-            <mat-icon class="add-course-btn">add</mat-icon>
-          </button>
-          <div *ngFor="let requestControl of requests.controls; let i = index">
-            <div class="lesson-form-row" [formGroupName]="i">
-              <mat-form-field appearance="fill">
-                <input
-                  matInput
-                  formControlName="request"
-                  placeholder="Add a new request"
-                />
-              </mat-form-field>
-              <mat-icon class="delete-btn" (click)="onDeleteRequestInput(i)">
-                delete_forever</mat-icon
-              >
-            </div>
-          </div>
-        </fieldset>
-        <button
-          mat-raised-button
-          type="submit"
-          color="primary"
-          [disabled]="!requestsForm.valid || requestsForm.untouched"
-          class="employee-requests_btn-submit"
-        >
-          Add request
-        </button>
-      </form>
-    </mat-expansion-panel>
-  </mat-accordion>
+  <div class="employee-requests_add">
+    <button
+      mat-mini-fab
+      (click)="onEditRequestClick()"
+      type="button"
+      color="accent"
+    >
+      <mat-icon class="add-course-btn">add</mat-icon>
+    </button>
+  </div>
 </div>
 <app-error-notification
   *ngIf="requestsError"
@@ -105,3 +53,37 @@
     <mat-spinner [diameter]="20"></mat-spinner>
   </div>
 </ng-template>
+<router-outlet></router-outlet>
+<!-- <app-requests-modal
+  (onGetRequestViaForm)="onGetRequestFromModal$.next($event)"
+  (onModalClose)="isModalOpen = !isModalOpen"
+> -->
+<!-- *ngIf="isModalOpen" -->
+<!-- <ng-template> -->
+<!-- <div
+      class="employee-requests_content"
+      [appEmployeeRequests]="request.status"
+    >
+      <p>
+        {{ request.message | titlecase }}
+      </p>
+      <div
+        class="employee-requests_actions"
+        *ngIf="request.status === requestStatus.pending"
+      >
+        <mat-button-toggle-group
+          name="status"
+          #toggleGroupe="matButtonToggleGroup"
+          (change)="onChangeStatus({ index: i, status: toggleGroupe.value })"
+        >
+          <mat-button-toggle [value]="requestStatus.accepted" color="accent"
+            ><mat-icon>done</mat-icon></mat-button-toggle
+          >
+          <mat-button-toggle [value]="requestStatus.denied" color="accent"
+            ><mat-icon>clear</mat-icon></mat-button-toggle
+          >
+        </mat-button-toggle-group>
+      </div>
+    </div> -->
+<!-- </ng-template> -->
+<!-- </app-requests-modal> -->

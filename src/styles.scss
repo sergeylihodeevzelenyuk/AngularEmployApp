@@ -1,8 +1,94 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$md-mcgpalette0: (
+  50: #f4f5f8,
+  100: #e3e5ee,
+  200: #d1d4e3,
+  300: #bec2d8,
+  400: #b0b5cf,
+  500: #a2a8c7,
+  600: #9aa0c1,
+  700: #9097ba,
+  800: #868db3,
+  900: #757da6,
+  A100: #ffffff,
+  A200: #f4f6ff,
+  A400: #c1caff,
+  A700: #a7b5ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$md-warn_palette: (
+  50: #fcf3f3,
+  100: #f9e0e0,
+  200: #f5cccc,
+  300: #f0b8b8,
+  400: #eda8a8,
+  500: #ea9999,
+  600: #e79191,
+  700: #e48686,
+  800: #e17c7c,
+  900: #db6b6b,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #ffeaea,
+  A700: #ffd0d0,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$my-primary: mat.define-palette($md-mcgpalette0, 800);
+$my-accent: mat.define-palette($md-mcgpalette0, A200, A100, A400);
+$my-warn: mat.define-palette($md-warn_palette, 700, 800, 900);
+
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+      warn: $my-warn,
+    ),
+  )
+);
+
+@include mat.all-component-themes($my-theme);
+
 html,
 body {
   height: 100%;
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }

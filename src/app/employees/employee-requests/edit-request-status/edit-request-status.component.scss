@@ -1,0 +1,54 @@
+@import '../../../../mixins.scss';
+
+.modal {
+  &_overlay {
+    @include notification;
+    z-index: 1;
+  }
+
+  &_content {
+    @include notification_content;
+    width: 300px;
+    background-color: white;
+    z-index: 1;
+
+    & .mat-icon-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    & button {
+      margin-bottom: 15px;
+    }
+  }
+
+  &_form {
+    text-align: center;
+    padding: 15px;
+    @include input-view;
+
+    fieldset {
+      border: none;
+    }
+  }
+}
+
+.request {
+  position: relative;
+  padding: 5px;
+  margin-bottom: 10px;
+  @include input-view;
+
+  p {
+    margin: 0;
+  }
+
+  &.approved {
+    background-color: $approved-green;
+  }
+
+  &.denied {
+    background-color: $error_red_backdrop;
+  }
+}

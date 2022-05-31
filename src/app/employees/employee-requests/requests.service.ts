@@ -7,7 +7,7 @@ import { DataModifier, DATA_MODIFIER_TOKEN } from 'src/app/app.tokens';
 import { Request } from './requests.model';
 
 @Injectable()
-export class RequestsService extends BaseService<Request> {
+export class RequestsService extends BaseService<Request[]> {
   constructor(
     private _http: HttpClient,
     @Inject(DATA_MODIFIER_TOKEN)

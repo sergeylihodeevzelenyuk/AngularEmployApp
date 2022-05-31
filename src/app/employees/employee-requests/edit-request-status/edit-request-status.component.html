@@ -1,0 +1,33 @@
+<div class="modal_overlay" (click)="onModalClose()"></div>
+<div class="modal_content">
+  <div *ngIf="request$ | async as request">
+    <div class="request" [appEmployeeRequests]="request.status">
+      <p>
+        {{ request.message | titlecase }}
+      </p>
+    </div>
+  </div>
+  <button mat-icon-button (click)="onModalClose()">
+    <mat-icon>clear</mat-icon>
+  </button>
+  <div class="employee-requests_actions">
+    <mat-button-toggle-group
+      name="status"
+      #toggleGroupe="matButtonToggleGroup"
+      (change)="onChangeStatus(toggleGroupe.value)"
+    >
+      <mat-button-toggle
+        [value]="requestStatus.accepted"
+        color="accent"
+        (click)="this.location.back()"
+        ><mat-icon>done</mat-icon></mat-button-toggle
+      >
+      <mat-button-toggle
+        [value]="requestStatus.denied"
+        color="accent"
+        (click)="this.location.back()"
+        ><mat-icon>clear</mat-icon></mat-button-toggle
+      >
+    </mat-button-toggle-group>
+  </div>
+</div>

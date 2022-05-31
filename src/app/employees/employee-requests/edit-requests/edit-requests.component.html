@@ -1,0 +1,46 @@
+<div class="modal_overlay" (click)="onModalClose()"></div>
+<div class="modal_content">
+  <button mat-icon-button (click)="onModalClose()">
+    <mat-icon>clear</mat-icon>
+  </button>
+  <form
+    #requestForm
+    [formGroup]="requestsForm"
+    class="modal_form"
+    (submit)="onFormSubmit()"
+  >
+    <fieldset formArrayName="requests">
+      <button
+        mat-mini-fab
+        (click)="onAddRequestInput()"
+        type="button"
+        color="primary"
+      >
+        <mat-icon class="add-course-btn">add</mat-icon>
+      </button>
+      <div *ngFor="let requestControl of requestInputs.controls; let i = index">
+        <div class="lesson-form-row" [formGroupName]="i">
+          <mat-form-field appearance="fill">
+            <input
+              matInput
+              formControlName="request"
+              placeholder="Add a new request"
+            />
+          </mat-form-field>
+          <mat-icon class="delete-btn" (click)="onDeleteRequestInput(i)">
+            delete_forever</mat-icon
+          >
+        </div>
+      </div>
+    </fieldset>
+    <button
+      mat-raised-button
+      type="submit"
+      color="primary"
+      [disabled]="!requestsForm.valid || requestsForm.untouched"
+      class="employee-requests_btn-submit"
+    >
+      Add request
+    </button>
+  </form>
+</div>

@@ -16,6 +16,8 @@ import { SortPipe } from './sort.pipe';
 import { EmployeeRequestsDirective } from './employee-requests/employee-requests.directive';
 import { RequestsService } from './employee-requests/requests.service';
 import { EmployeesService } from './employees.service';
+import { EditRequests } from './employee-requests/edit-requests/edit-requests.component';
+import { EditRequestsStatus } from './employee-requests/edit-request-status/edit-request-status.component';
 
 const ROUTE = environment.PATH;
 
@@ -30,6 +32,8 @@ const ROUTE = environment.PATH;
     ConfirmDeletingComponent,
     SortPipe,
     EmployeeRequestsDirective,
+    EditRequests,
+    EditRequestsStatus,
   ],
 
   imports: [
@@ -46,6 +50,16 @@ const ROUTE = environment.PATH;
           {
             path: ROUTE.EMPLOYEES.EMPLOYEE,
             component: EmployeeComponent,
+            children: [
+              {
+                path: ROUTE.EMPLOYEES.REQUEST,
+                component: EditRequests,
+              },
+              {
+                path: ROUTE.EMPLOYEES.REQUEST_STAUS,
+                component: EditRequestsStatus,
+              },
+            ],
           },
           {
             path: ROUTE.EMPLOYEES.EDIT,
