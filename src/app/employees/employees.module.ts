@@ -13,7 +13,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { environment } from 'src/environments/environment';
 import { ConfirmDeletingComponent } from './employee/confirm-deleting/confirm-deleting.component';
 import { SortPipe } from './sort.pipe';
-import { EmployeeRequestsDirective } from './employee-requests/employee-requests.directive';
+import { RequestsStatusDirective } from './employee-requests/requests-status.directive';
 import { RequestsService } from './employee-requests/requests.service';
 import { EmployeesService } from './employees.service';
 import { EditRequests } from './employee-requests/edit-requests/edit-requests.component';
@@ -31,7 +31,7 @@ const ROUTE = environment.PATH;
     EmployeesPageComponent,
     ConfirmDeletingComponent,
     SortPipe,
-    EmployeeRequestsDirective,
+    RequestsStatusDirective,
     EditRequests,
     EditRequestsStatus,
   ],

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { Subscription, tap } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { RequestStorageService } from '../requests.storage.service';
 import { RequestStatus } from '../requests.enum';
@@ -28,9 +28,10 @@ export class EditRequests implements OnInit, OnDestroy {
       requests: this.fb.array([], Validators.required),
     });
 
-    this.fetchedRequestsSub = this.requestStorageService.fetchedRequests
-      .pipe(tap((requests: Request[]) => (this.fetchedRequests = requests)))
-      .subscribe();
+    this.fetchedRequestsSub =
+      this.requestStorageService.fetchedRequests.subscribe(
+        (requests: Request[]) => (this.fetchedRequests = requests)
+      );
   }
 
   ngOnDestroy(): void {

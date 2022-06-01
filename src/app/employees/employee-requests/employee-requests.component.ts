@@ -30,9 +30,7 @@ export class EmployeeRequestsComponent implements OnInit {
 
   requests$!: Observable<Request[]>;
   editedRequests$!: Observable<Request[]>;
-  updatedStatusRequests$!: Observable<Request[]>;
 
-  employeeId!: string;
   fetchedRequests!: Request[];
   panelOpenState = false;
   isFetching = false;
@@ -115,6 +113,7 @@ export class EmployeeRequestsComponent implements OnInit {
       queryParams: {
         requestIndex: i,
       },
+      queryParamsHandling: 'merge',
     });
   }
 

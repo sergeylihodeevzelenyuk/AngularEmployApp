@@ -5,7 +5,7 @@ import { RequestStatus } from './requests.enum';
 @Directive({
   selector: '[appEmployeeRequests]',
 })
-export class EmployeeRequestsDirective implements OnInit {
+export class RequestsStatusDirective implements OnInit {
   @Input('appEmployeeRequests') status = RequestStatus.pending;
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
